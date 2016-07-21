@@ -1,0 +1,10 @@
+type: module
+name: Imports RIF's Hikes insite Drupal
+description: Update the RIF's Drupal with the csv exports of the RIF's ACCESS Database
+package: Development
+# core: '8.x'
+
+# Information added by Drupal.org packaging script on 2016-05-16
+version: '8.x-0.1-alpha1'
+core: '8.x'
+project: 'rif-imports'
