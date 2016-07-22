@@ -15,13 +15,12 @@ use Drupal\rif_imports\Controller\ImportControllerBase;
 class ImportRjController extends ImportControllerBase {
 
     protected $mapping;
+    protected $randoJour;
 
     public function __construct() {
         parent::__construct();
         //A mettre dans la classe RandosJour ???
-        $this->mapping = array(['body', 22, 'string'], ['title', 4, 'string'], ['field_date', 1, 'rifdate'],
-            ['field_gare_depart', 19, 'string'], ['field_heure_depar', 11, 'riftime'],
-            ['field_gare_depart_retour', 23, 'string'], ['field_heure_arrivee_aller', 15, 'riftime']);
+        
     }
 
     /**
