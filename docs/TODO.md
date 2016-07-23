@@ -21,3 +21,45 @@
 
 * I started, but couldn't go further than a certain depth...
 * see [my WIKI in french](http://wiki.jpmena.eu/index.php?title=Php:drupal8:drush/xdebug)
+
+# 23/07/2016 GitHub Project creation:
+* OREilly's __Learning PHP 7__ book invites at the chapter _Using a Debuggger_ (page 269 in that early release version)
+  * to use [phpdbb](http://phpdbg.com/) (Since version 5.6 of PHP)
+  * they present it as command line utility
+
+```sh
+jpmena@jpmena-P34 ~/RIF/d8rif/modules/rif_imports (master=) $ phpdbg -e test.php
+Le programme « phpdbg » n'est pas encore installé. Vous pouvez l'installer en tapant :
+sudo apt install php7.0-phpdbg
+jpmena@jpmena-P34 ~/RIF/d8rif/modules/rif_imports (master *=) $ sudo apt install php7.0-phpdbg
+[sudo] Mot de passe de jpmena :
+Lecture des listes de paquets... Fait
+Construction de l arbre des dépendances       
+Lecture des informations d état... Fait
+Les NOUVEAUX paquets suivants seront installés :
+  php7.0-phpdbg
+0 mis à jour, 1 nouvellement installés, 0 à enlever et 21 non mis à jour.
+Il est nécessaire de prendre 1 319 ko dans les archives.
+Après cette opération, 4 566 ko d espace disque supplémentaires seront utilisés.
+Réception de:1 http://fr.archive.ubuntu.com/ubuntu xenial-updates/universe amd64 php7.0-phpdbg amd64 7.0.8-0ubuntu0.16.04.1 [1 319 kB]
+1 319 ko réceptionnés en 1s (1 226 ko/s)
+Sélection du paquet php7.0-phpdbg précédemment désélectionné.
+(Lecture de la base de données... 303913 fichiers et répertoires déjà installés.)
+Préparation du dépaquetage de .../php7.0-phpdbg_7.0.8-0ubuntu0.16.04.1_amd64.deb ...
+Dépaquetage de php7.0-phpdbg (7.0.8-0ubuntu0.16.04.1) ...
+Traitement des actions différées (« triggers ») pour man-db (2.7.5-1) ...
+Paramétrage de php7.0-phpdbg (7.0.8-0ubuntu0.16.04.1) ...
+update-alternatives: utilisation de « /usr/bin/phpdbg7.0 » pour fournir « /usr/bin/phpdbg » (phpdbg) en mode automatique
+
+Creating config file /etc/php/7.0/phpdbg/php.ini with new version
+`̀``
+  * question does it work in connection with NetBeans ?
+
+* continue working with Batch and controller see [My md page](docs/BATCH.md)
+* Les options de phpdbg que j'utilise beaucoup sont :
+  * n: passer à la ligne suivante
+  * _continue_ : pour passer au prochain arrêt du programme !!!
+  * __f 1__ ou __t__ savoir où j'en suis (quelle ligne du programme)...
+  * __ev__ pour évaluer une expression pendant que mon programme est arrêté ...
+  * _watch_ utilisé dans le livre pour connaître ma variable utilisée ...
+  * q ou quit: pour quitter la session !!!

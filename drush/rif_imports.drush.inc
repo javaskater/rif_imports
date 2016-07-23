@@ -38,23 +38,32 @@ function rif_imports_drush_command() {
  */
 function drush_rif_imports_rif_import_randos_jours() {
     
+    $path_file = drush_get_option($drush_command_option);
+    
     $importer = new ImportRjController();
 
-    if (($handle = $importer->openfile()) !== FALSE) {
-        $imported = 0;
-        $row = 1;
-        while (($data = fgetcsv($handle)) !== FALSE) {
-            $num = count($data);
-            drush_log(t('- @num champs à la ligne @row: ', array('@num' => $num, '@row' => $row)));
-            for ($c = 0; $c < $num; $c++) {
-                drush_log(t('++ le champs @c pour valeur @data: ', array('@c' => $c, '@data' => $data[$c])));
-            }
-            $imported ++;
-            $row++;
-        }
-        fclose($handle);
-        drush_log(t('There were @nombre randonnées de journée successfully imported!', array('@nombre' => $imported)), $type = 'ok');
-    }
+    
+    // Get the hiking content to import
+  $hikes_to_insert_or_update = $importer->getDayHikesToInsertOrUpdate($path_file);
+
+  // Get batch array.
+  $batch = $importer->getContentInsertBatch($hikes_to_insert_or_update['dayhikes_to_insert']);
+
+  $node = node_load(55);
+
+  // Initialize the batch.
+  batch_set($batch);
+
+  // Start the batch process.
+  drush_backend_batch_process();
+  
+  $batch = $importer->getContentUpdatetBatch($hikes_to_insert_or_update['dayhikes_to_update']);
+  
+  // Initialize the batch.
+  batch_set($batch);
+
+  // Start the batch process.
+  drush_backend_batch_process();
 }
 
 /**
