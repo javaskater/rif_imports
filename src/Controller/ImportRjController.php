@@ -8,18 +8,18 @@
 namespace Drupal\rif_imports\Controller;
 
 use Drupal\rif_imports\Controller\ImportControllerBase;
+use Drupal\rif_imports\Entity\DayHike;
 
 /**
  * Returns responses for devel module routes.
  */
 class ImportRjController extends ImportControllerBase {
 
-    protected $mapping;
+    protected $mappingImport;
     protected $randoJour;
 
     public function __construct() {
         parent::__construct();
-        //A mettre dans la classe RandosJour ???
     }
 
     /**
@@ -33,6 +33,19 @@ class ImportRjController extends ImportControllerBase {
      */
     public function getDayHikesToInsertOrUpdate($path_file) {
         if (($handle = $this->openfile()) !== FALSE) { //TODO à remplacer par une 
+            $myDayHike = new DayHike();
+            $this->mappingImport = array(//Certains se rapprochent de la DayHike et d'autres du TrainRide ...
+                array('field' => 'body', 'csv_pos' => 22, 'attribute' => $myDayHike->itineraire),
+                array('field' => 'title', 'csv_pos' => 4, 'attribute' => $myDayHike->titre),
+                array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => $myDayHike->date),
+                array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => $myDayHike->aller->gareDepart),
+                array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => $myDayHike->aller->heureDepart),
+                array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => $myDayHike->aller->gareArrivee),
+                array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' =>  $myDayHike->aller->heureArrivee),
+                array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => $myDayHike->retour->gareDepart),
+                array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => $myDayHike->retour->heureDepart),
+                array('field' => 'field_gare_arrivee_retour', 'csv_pos' => 25, 'attribute' => $myDayHike->retour->gareArrivee),
+                array('field' => 'field_heure_arrivee_retour', 'csv_pos' => 18, 'attribute' => $myDayHike->retour->heureArrivee));
             $nodes_to_insert = [];
             $nodes_to_update = [];
             $imported = 0;
@@ -48,7 +61,7 @@ class ImportRjController extends ImportControllerBase {
             }
             fclose($handle);
             drush_log(t('There were @nombre randonnées de journée successfully imported!', array('@nombre' => $imported)), $type = 'ok');
-            return array('dayhikes_to_insert' =>  $nodes_to_insert, 'dayhikes_to_update' => $nodes_to_update);
+            return array('dayhikes_to_insert' => $nodes_to_insert, 'dayhikes_to_update' => $nodes_to_update);
         }
         return false;
         // Delete content by content type.

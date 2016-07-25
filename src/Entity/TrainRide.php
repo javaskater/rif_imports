@@ -18,8 +18,7 @@ class TrainRide {
      * The trains' stations , Gare is the french word for Train station
      */
 
-    protected $__stations = array('departGareDepart' => false, 'departGareChangement' => false, 'departGareArrivee' => false,
-        'retourGareDepart' => false, 'retourGareChangement' => false, 'retourGareArrivee' => false);
+    protected $__stations = array('gareDepart' => false, 'gareGangement' => false, 'gareArrivee' => false);
 
 
     /*
@@ -27,8 +26,7 @@ class TrainRide {
      * in Drupal8 DateTime format
      */
     protected $__trainTimes = array('jourDeplacement' => false,
-        'heureDepartAller' => false, 'heureChangementArriveeAller' => false, 'heureChangementDepartAller' => false, 'heureArriveeAller' => false,
-        'heureDepartRetour' => false, 'heureChangementArriveeRetour' => false, 'heureChangementDepartRetour' => false, 'heureArriveeRetour' => false);
+        'heureDepart' => false, 'heureChangementArrivee' => false, 'heureChangementDepart' => false, 'heureArrivee' => false);
 
     /*
      * For the usage of the __set method see PHP CookBook (OReilly) paragrap 7.11
@@ -42,26 +40,23 @@ class TrainRide {
      */
 
     public function __set($property, $value) {
-        if (isset($this->__trainTimes[$property])) {
-            if ($property == 'jourDeplacement' || substr($property, 0, 5) == 'heure') {
-                $this->__trainTimes[$property] = translateCsvToTime($value);
-                return $this->__trainTimes[$property];
-            } else {
-                return false;
-            }
-        } else if (isset($this->__stations[$property])) {
+        if (isset($this->__trainTimes[$property]) && ($property == 'jourDeplacement' || substr($property, 0, 5) == 'heure')) {
+            $this->__trainTimes[$property] = translateCsvToTime($value);
+            return $this->__trainTimes[$property];
+        } else if (isset($this->__stations[$property]) && substr($property, 0, 4) == 'gare') {
             $this->__stations[$property] = $value;
             return $this->__stations[$property];
         } else {
             return false;
         }
     }
-    
+
     /*
      * For the usage of the __set method 
      * see PHP CookBook (OReilly) paragrap 7.11
      * 
      */
+
     public function __get($property) {
         if (isset($this->__trainTimes[$property])) {
             return $this->__trainTimes[$property];
