@@ -9,6 +9,7 @@ namespace Drupal\rif_imports\Entity;
 use Drupal\rif_imports\Entity\TrainRide;
 
 class DayHike{
+    public $cle;
     public $itineraire;
     public $titre;
     public $date;
@@ -17,7 +18,6 @@ class DayHike{
 
 
     public function __construct() {
-        parent::__construct();
         $this->aller = new TrainRide();
         $this->retour = new TrainRide();
     }

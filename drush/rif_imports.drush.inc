@@ -38,16 +38,18 @@ function rif_imports_drush_command() {
  */
 function drush_rif_imports_rif_import_randos_jours() {
     
-    $path_file = drush_get_option($drush_command_option);
+    $path_file = drush_get_option("csv");
+    drush_log(t('onva lire depui @csv', array('@csv' => $path_file)));
     
     $importer = new ImportRjController();
 
     
     // Get the hiking content to import
   $hikes_to_insert_or_update = $importer->getDayHikesToInsertOrUpdate($path_file);
+  dlm($hikes_to_insert_or_update);
 
   // Get batch array.
-  $batch = $importer->getContentInsertBatch($hikes_to_insert_or_update['dayhikes_to_insert']);
+  //$batch = $importer->getContentInsertBatch($hikes_to_insert_or_update['dayhikes_to_insert']);
 
   $node = node_load(55);
 
@@ -57,7 +59,7 @@ function drush_rif_imports_rif_import_randos_jours() {
   // Start the batch process.
   drush_backend_batch_process();
   
-  $batch = $importer->getContentUpdatetBatch($hikes_to_insert_or_update['dayhikes_to_update']);
+  //$batch = $importer->getContentUpdatetBatch($hikes_to_insert_or_update['dayhikes_to_update']);
   
   // Initialize the batch.
   batch_set($batch);

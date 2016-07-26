@@ -63,3 +63,8 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
   * __ev__ pour évaluer une expression pendant que mon programme est arrêté ...
   * _watch_ utilisé dans le livre pour connaître ma variable utilisée ...
   * q ou quit: pour quitter la session !!!
+
+# 26/07/2016 :
+* The setting of new value doesnt work ... The object are empty
+  * we still have to control that those values are well translated ?
+  * à tester avec phpdbg ???
