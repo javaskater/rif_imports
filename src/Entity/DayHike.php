@@ -6,20 +6,33 @@
  */
 
 namespace Drupal\rif_imports\Entity;
+
 use Drupal\rif_imports\Entity\TrainRide;
 
-class DayHike{
-    public $cle;
-    public $itineraire;
-    public $titre;
-    public $date;
-    public $aller;
-    public $retour;
+class DayHike {
 
+    protected $__data = array('cle' => false, 'itineraire' => false, 'titre' => false,
+        'date' => false, 'aller' => false, 'retour' => false);
 
     public function __construct() {
-        $this->aller = new TrainRide();
-        $this->retour = new TrainRide();
+        $this->__data['aller'] = new TrainRide();
+        $this->__data['retour'] = new TrainRide();
     }
-    
+
+     /*
+     * see paragraph 7.11 of PHP In Action
+      * OReilly Books ...
+     */
+    public function __get($property) {
+        if (isset($this->__data[$property])) {
+            return $this->__data[$property];
+        } else {
+            return false;
+        }
+    }
+
+    public function __set($property, $value) {
+        $this->__data[$property] = $value;
+    }
+
 }

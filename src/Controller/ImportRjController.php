@@ -32,42 +32,50 @@ class ImportRjController extends ImportControllerBase {
      *   Array of nids of nodes to delete.
      */
     public function getDayHikesToInsertOrUpdate($path_file) {
-        $dayHikes=array();
+        $dayHikes = array();
         if (($handle = $this->openfile($path_file)) !== FALSE) { //TODO à remplacer par une 
             $myDayHike = new DayHike();
             $this->mappingImport = array(//Certains se rapprochent de la DayHike et d'autres du TrainRide ...
-                array('field' => 'cle', 'csv_pos' => O, 'attribute' => $myDayHike->cle),
-                array('field' => 'body', 'csv_pos' => 22, 'attribute' => $myDayHike->itineraire),
-                array('field' => 'title', 'csv_pos' => 4, 'attribute' => $myDayHike->titre),
-                array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => $myDayHike->date),
-                array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => $myDayHike->aller->gareDepart),
-                array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => $myDayHike->aller->heureDepart),
-                array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => $myDayHike->aller->gareArrivee),
-                array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' => $myDayHike->aller->heureArrivee),
-                array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => $myDayHike->retour->gareDepart),
-                array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => $myDayHike->retour->heureDepart),
-                array('field' => 'field_gare_arrivee_retour', 'csv_pos' => 25, 'attribute' => $myDayHike->retour->gareArrivee),
-                array('field' => 'field_heure_arrivee_retour', 'csv_pos' => 18, 'attribute' => $myDayHike->retour->heureArrivee));
+                array('field' => 'cle', 'csv_pos' => O, 'attribute' => array('cle')),
+                array('field' => 'body', 'csv_pos' => 22, 'attribute' => array('itineraire')),
+                array('field' => 'title', 'csv_pos' => 4, 'attribute' => array('titre')),
+                array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
+                /*array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => array('aller','gareDepart')),
+                array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => array('aller','heureDepart')),
+                array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => array('aller','gareArrivee')),
+                array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' => array('aller','heureArrivee')),
+                array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => array('retour','gareDepart')),
+                array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => array('retour','heureDepart')),
+                array('field' => 'field_gare_arrivee_retour', 'csv_pos' => 25, 'attribute' => array('retour','gareArrivee')),
+                array('field' => 'field_heure_arrivee_retour', 'csv_pos' => 18, 'attribute' => array('retour','heureArrivee'))*/);
             $nodes_to_insert = [];
             $nodes_to_update = [];
             $imported = 0;
-            $row = 1;
+            $row = 0;
             while (($data = fgetcsv($handle)) !== FALSE) {
                 $num = count($data);
                 drush_log(t('- @num champs à la ligne @row: ', array('@num' => $num, '@row' => $row)));
-                for ($c = 0; $c < $num; $c++) {
-                    foreach ($this->mappingImport as $csv_map) {
-                        //drush_log(t('++ le champs @c pour valeur @data: ', array('@c' => $c, '@data' => $data[$c])));
-                        if ($csv_map['csv_pos'] == $c) {
-                            $csv_map['attribute'] = $data[$c];
-                            drush_log(t('++ on a entré pour la position @c la valeurvaleur @data: ', array('@c' => $c, '@data' => $data[$c])));
+                if ($row > 0) { //the first line is titles'line !!!
+                    for ($c = 0; $c < $num; $c++) {
+                        foreach ($this->mappingImport as $csv_map) {
+                            if ($csv_map['csv_pos'] == $c) {
+                                drush_log(t('++ on va entrer pour la position @c la valeurvaleur @data: ', array('@c' => $c, '@data' => $data[$c])));
+                                //$attribute_to_set=$myDayHike;
+                                /*foreach($csv_map['attribute'] as $attr_string){
+                                    $attribute_to_set=$attribute_to_set->$attr_string;
+                                } */ 
+                                //$attribute_to_set=$data[$c];
+                                $attribute_to_set=$csv_map['attribute'][0];
+                                $myDayHike->$attribute_to_set=$data[$c];
+                                dlm($attribute_to_set);
+                            }
                         }
                     }
+                    $imported ++;
                 }
-                $imported ++;
                 $row++;
                 drush_log(t('++ ligne @imported avec succes: ', array('@imported' => $imported)));
-                $dayHikes[$myDayHike];
+                $dayHikes[] = $myDayHike;
                 /*
                  * 
                  */
