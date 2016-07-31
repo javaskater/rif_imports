@@ -62,10 +62,10 @@ function drush_rif_imports_rif_import_randos_jours() {
   //$batch = $importer->getContentUpdatetBatch($hikes_to_insert_or_update['dayhikes_to_update']);
   
   // Initialize the batch.
-  batch_set($batch);
+  //batch_set($batch);
 
   // Start the batch process.
-  drush_backend_batch_process();
+  //drush_backend_batch_process();
 }
 
 /**

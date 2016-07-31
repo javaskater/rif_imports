@@ -40,8 +40,13 @@ class TrainRide {
      */
 
     public function __set($property, $value) {
-        if (isset($this->__trainTimes[$property]) && ($property == 'jourDeplacement' || substr($property, 0, 5) == 'heure')) {
-            $this->__trainTimes[$property] = translateCsvToTime($value);
+        //drush_log(t('+++ --- jPour le TrainRide, avant les if ... je sette la propriété: @prop', array('@prop' => substr($property, 0, 4))));
+        if (isset($this->__trainTimes[$property]) && substr($property, 0, 4) == 'jour') {
+            $this->__trainTimes[$property] = $this->translateCsvToTime($value);
+            return $this->__trainTimes[$property];
+        } else if (isset($this->__trainTimes[$property]) && substr($property, 0, 5) == 'heure') {
+            //drush_log(t('+++ --- jPour le TrainRide, je sette la propriété: @prop', array('@prop' => $property)));
+            $this->__trainTimes[$property] = $this->translateCsvToTime($value);
             return $this->__trainTimes[$property];
         } else if (isset($this->__stations[$property]) && substr($property, 0, 4) == 'gare') {
             $this->__stations[$property] = $value;
@@ -77,10 +82,10 @@ class TrainRide {
      * 
      */
 
-    function translateCsvToTime($csv_value) {
+    function translateCsvToTime($date_time_csv) {
         $PATTERN_DATE_CSV = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/';
-        if (preg_match($PATTERN_DATE_CSV, $csv_value, $matches)) {
-            return $csv_value;
+        if (preg_match($PATTERN_DATE_CSV, $date_time_csv, $matches)) {
+            return $date_time_csv;
         } else {
             $PATTERN_DATETIME_CSV = '/^([0-9]{4}\/[0-9]{2}\/[0-9]{2})\s+([0-9]{2}:[0-9]{2}:[0-9]{2})$/';
             if (preg_match($PATTERN_DATETIME_CSV, $date_time_csv, $matches)) {

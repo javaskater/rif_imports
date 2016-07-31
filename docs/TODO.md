@@ -68,3 +68,9 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 * The setting of new value doesnt work ... The object are empty
   * we still have to control that those values are well translated ?
   * à tester avec phpdbg ???
+
+# 31/07/2016
+
+* Toutes les valeurs entrent bien !!!!
+* Le Batchh est à contruire
+  * Bien différencier INSERT et UPDATE !!!

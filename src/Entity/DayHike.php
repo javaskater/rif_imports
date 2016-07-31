@@ -19,10 +19,11 @@ class DayHike {
         $this->__data['retour'] = new TrainRide();
     }
 
-     /*
+    /*
      * see paragraph 7.11 of PHP In Action
-      * OReilly Books ...
+     * OReilly Books ...
      */
+
     public function __get($property) {
         if (isset($this->__data[$property])) {
             return $this->__data[$property];
@@ -33,6 +34,13 @@ class DayHike {
 
     public function __set($property, $value) {
         $this->__data[$property] = $value;
+        if ($property == 'date') {
+            $property_to_set = 'jourDeplacement';
+            $this->__data['aller']->$property_to_set = $value;
+            $this->__data['retour']->$property_to_set = $value;
+            //dlm($this->__data['aller']);
+            //dlm($this->__data['retour']);
+        }
     }
 
 }

@@ -40,14 +40,14 @@ class ImportRjController extends ImportControllerBase {
                 array('field' => 'body', 'csv_pos' => 22, 'attribute' => array('itineraire')),
                 array('field' => 'title', 'csv_pos' => 4, 'attribute' => array('titre')),
                 array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
-                /*array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => array('aller','gareDepart')),
-                array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => array('aller','heureDepart')),
-                array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => array('aller','gareArrivee')),
-                array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' => array('aller','heureArrivee')),
-                array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => array('retour','gareDepart')),
-                array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => array('retour','heureDepart')),
-                array('field' => 'field_gare_arrivee_retour', 'csv_pos' => 25, 'attribute' => array('retour','gareArrivee')),
-                array('field' => 'field_heure_arrivee_retour', 'csv_pos' => 18, 'attribute' => array('retour','heureArrivee'))*/);
+                array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => array('aller', 'gareDepart')),
+                array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => array('aller', 'heureDepart')),
+                array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => array('aller', 'gareArrivee')),
+                array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' => array('aller', 'heureArrivee')),
+                array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => array('retour', 'gareDepart')),
+                array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => array('retour', 'heureDepart')),
+                array('field' => 'field_gare_arrivee_retour', 'csv_pos' => 25, 'attribute' => array('retour', 'gareArrivee')),
+                array('field' => 'field_heure_arrivee_retour', 'csv_pos' => 18, 'attribute' => array('retour', 'heureArrivee')));
             $nodes_to_insert = [];
             $nodes_to_update = [];
             $imported = 0;
@@ -60,14 +60,15 @@ class ImportRjController extends ImportControllerBase {
                         foreach ($this->mappingImport as $csv_map) {
                             if ($csv_map['csv_pos'] == $c) {
                                 drush_log(t('++ on va entrer pour la position @c la valeurvaleur @data: ', array('@c' => $c, '@data' => $data[$c])));
-                                //$attribute_to_set=$myDayHike;
-                                /*foreach($csv_map['attribute'] as $attr_string){
-                                    $attribute_to_set=$attribute_to_set->$attr_string;
-                                } */ 
-                                //$attribute_to_set=$data[$c];
-                                $attribute_to_set=$csv_map['attribute'][0];
-                                $myDayHike->$attribute_to_set=$data[$c];
-                                dlm($attribute_to_set);
+                                if (count($csv_map['attribute']) == 1) {
+                                    $attribute_to_set = $csv_map['attribute'][0];
+                                    $myDayHike->$attribute_to_set = $data[$c];
+                                } else if (count($csv_map['attribute']) == 2) {
+                                    $object_to_set = $csv_map['attribute'][0];
+                                    $attribute_to_set = $csv_map['attribute'][1];
+                                    $myDayHike->$object_to_set->$attribute_to_set = $data[$c];
+                                    dlm($object_to_set);
+                                }
                             }
                         }
                     }
