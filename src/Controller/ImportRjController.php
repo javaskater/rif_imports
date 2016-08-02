@@ -31,26 +31,14 @@ class ImportRjController extends ImportControllerBase {
      * @return array
      *   Array of nids of nodes to delete.
      */
-    public function getDayHikesToInsertOrUpdate($path_file) {
+    public function insertOrUpdateDayHikes($path_file) {
         $dayHikes = array();
         if (($handle = $this->openfile($path_file)) !== FALSE) { //TODO à remplacer par une 
             $myDayHike = new DayHike();
-            $this->mappingImport = array(//Certains se rapprochent de la DayHike et d'autres du TrainRide ...
-                array('field' => 'cle', 'csv_pos' => O, 'attribute' => array('cle')),
-                array('field' => 'body', 'csv_pos' => 22, 'attribute' => array('itineraire')),
-                array('field' => 'title', 'csv_pos' => 4, 'attribute' => array('titre')),
-                array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
-                array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => array('aller', 'gareDepart')),
-                array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => array('aller', 'heureDepart')),
-                array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => array('aller', 'gareArrivee')),
-                array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' => array('aller', 'heureArrivee')),
-                array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => array('retour', 'gareDepart')),
-                array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => array('retour', 'heureDepart')),
-                array('field' => 'field_gare_arrivee_retour', 'csv_pos' => 25, 'attribute' => array('retour', 'gareArrivee')),
-                array('field' => 'field_heure_arrivee_retour', 'csv_pos' => 18, 'attribute' => array('retour', 'heureArrivee')));
-            $nodes_to_insert = [];
-            $nodes_to_update = [];
-            $imported = 0;
+            $this->mappingImport = DayHike::$d8_csv_mapping;
+            $nodes_inserted = [];
+            $nodes_updated = [];
+            $treated = 0;
             $row = 0;
             while (($data = fgetcsv($handle)) !== FALSE) {
                 $num = count($data);
@@ -72,42 +60,25 @@ class ImportRjController extends ImportControllerBase {
                             }
                         }
                     }
-                    $imported ++;
+                    $treated ++;
                 }
                 $row++;
-                drush_log(t('++ ligne @imported avec succes: ', array('@imported' => $imported)));
+                //drush_log(t('++ ligne @treated avec succes: ', array('@treated' => $treated)));
                 $dayHikes[] = $myDayHike;
-                /*
-                 * 
-                 */
+                $testD8DayHike = $myDayHike->d8Exists();
+                $finalD8DayHike = $myDayHike->d8InsertOrUpdate($testD8DayHike->nid);
+                if ($finalD8DayHike['nid']) {
+                    $nodes_updated[] = $finalD8DayHike['d8Entity'];
+                } else {
+                    $nodes_inserted[] = $finalD8DayHike['d8Entity'];
+                }
             }
             fclose($handle);
-            drush_log(t('There were @nombre randonnées de journée successfully imported!', array('@nombre' => $imported)), $type = 'ok');
-            dlm($dayHikes);
-            return array('dayhikes_to_insert' => $nodes_to_insert, 'dayhikes_to_update' => $nodes_to_update);
+            //drush_log(t('There were @nombre randonnées de journée successfully imported!', array('@nombre' => $imported)), $type = 'ok');
+            //dlm($dayHikes);
+            return array('collected_dayhikes'=> $dayHikes, 'new_d8_entities' => $nodes_inserted, 'updated_d8_entities' => $nodes_updated);
         }
         return false;
-        // Delete content by content type.
-        /* if ($content_types !== FALSE) {
-          $nodes_to_delete = array();
-          foreach ($content_types as $content_type) {
-          if ($content_type) {
-          $nids = $this->connection->select('node', 'n')
-          ->fields('n', array('nid'))
-          ->condition('type', $content_type)
-          ->execute()
-          ->fetchCol('nid');
-
-          $nodes_to_delete = array_merge($nodes_to_delete, $nids);
-          }
-          }
-          }
-          // Delete all content.
-          else {
-          $nodes_to_delete = FALSE;
-          }
-
-          return $nodes_to_delete; */
     }
 
     /**

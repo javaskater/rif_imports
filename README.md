@@ -15,5 +15,16 @@
 
 # Other Topics
 
+## Inserting the way without batch
+* checking Entities and if those entities exists see [Drupal 8.2 Entity api](https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_api/8.2.x)
+
+``` php
+$fids = Drupal::entityQuery('file')
+->condition('status', FILE_STATUS_PERMANENT, '<>')
+->condition('changed', REQUEST_TIME - $age, '<')
+->range(0, 100)
+->execute();
+```
+
 ## Things to remember:
 * Along the way there are many things I have to remember that is why I need a [TODOs List](docs/TODO.md)
