@@ -28,3 +28,23 @@ $fids = Drupal::entityQuery('file')
 
 ## Things to remember:
 * Along the way there are many things I have to remember that is why I need a [TODOs List](docs/TODO.md)
+
+# Running the project:
+* The following command can be placed in a CRON:
+``` bash
+#the -v option at the end is to allow the NOTICE drush_log messages to be printed out
+jpmena@jpmena-P34 ~ $ drush @d8rif.dev rirj --csv="~/RIF/importations/randonnees.csv" -v >d.log 2>&1
+## the @d8rif.dev drush shortcut had been defined the following way :
+jpmena@jpmena-P34 ~ $ cat .drush/site-aliases/d8rif.aliases.drushrc.php
+<?php
+$aliases['dev'] = array(
+   'root' => '/home/jpmena/RIF/d8rif',
+   'uri' => 'http://dru8rif.ovh',
+);
+/**
+ * $aliases['live'] = array(
+ * 'root' => '/kunden/homepages/21/d462702613/htdocs/sites_jpm/d8jpmena',
+ * 'uri' => 'http://jpmena.eu',
+ * );
+ **/
+```

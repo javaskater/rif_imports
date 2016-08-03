@@ -111,8 +111,14 @@ class DayHike {
      */
     public function d8InsertOrUpdate($nid = false) {
         $insertedOrUpdated = array('nid' => $nid, 'd8Entity' => false);
-        $storage_manager = \Drupal::entityManager()->getStorage(self::$d8_custom_entity_type);
+        /*see https://api.drupal.org/api/drupal/core!includes!entity.inc/function/entity_load/8.2.x 
+        * also in core/includes/entity.inc line 79-85
+         * and its use in http://enzolutions.com/articles/2015/12/03/how-to-get-a-list-of-content-types-in-drupal-8/
+         */
+        $storage_manager = \Drupal::service('entity.manager')->getStorage('node_type')->load(self::$d8_custom_entity_type);
+        
         $new_dayhike_values = array('nid' => $nid);
+        
         foreach (self::$d8_csv_mapping as $map_entry) {
             if (count($map_entry['attribute']) == 1) {
                 $attribute_to_get =  $map_entry['attribute'][0];

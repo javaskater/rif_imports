@@ -66,7 +66,13 @@ class ImportRjController extends ImportControllerBase {
                 //drush_log(t('++ ligne @treated avec succes: ', array('@treated' => $treated)));
                 $dayHikes[] = $myDayHike;
                 $testD8DayHike = $myDayHike->d8Exists();
-                $finalD8DayHike = $myDayHike->d8InsertOrUpdate($testD8DayHike->nid);
+                dlm($testD8DayHike);
+                $node_id=false;
+                if($testD8DayHike){
+                    $node_id=$testD8DayHike->nid;
+                }
+                $finalD8DayHike = $myDayHike->d8InsertOrUpdate($node_id);
+                dlm($finalD8DayHike);
                 if ($finalD8DayHike['nid']) {
                     $nodes_updated[] = $finalD8DayHike['d8Entity'];
                 } else {
