@@ -1,0 +1,18 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_gare_arrivee_retour
+    - node.type.randonnee_de_journee
+id: node.randonnee_de_journee.field_gare_arrivee_retour
+field_name: field_gare_arrivee_retour
+entity_type: node
+bundle: randonnee_de_journee
+label: 'Gare arrivée retour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

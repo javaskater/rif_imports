@@ -1,0 +1,18 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_gare_depart_aller
+    - node.type.randonnee_de_journee
+id: node.randonnee_de_journee.field_gare_depart_aller
+field_name: field_gare_depart_aller
+entity_type: node
+bundle: randonnee_de_journee
+label: 'Gare Départ Aller'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

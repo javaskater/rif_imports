@@ -30,6 +30,9 @@ $fids = Drupal::entityQuery('file')
 * Along the way there are many things I have to remember that is why I need a [TODOs List](docs/TODO.md)
 
 # Running the project:
+## TODO: importing the custom content type:
+* Exporting the configuration of my randonnee de Jour Content Typ id on the [DAY HIKE EXPORT](docs/EXPORTS.md)
+## Running the SHELL
 * The following command can be placed in a CRON:
 ``` bash
 #the -v option at the end is to allow the NOTICE drush_log messages to be printed out
