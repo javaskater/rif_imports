@@ -59,7 +59,6 @@ class ImportRjController extends ImportControllerBase {
                                     $object_to_set = $csv_map['attribute'][0];
                                     $attribute_to_set = $csv_map['attribute'][1];
                                     $myDayHike->$object_to_set->$attribute_to_set = $data[$c];
-                                    dlm($object_to_set);
                                 }
                             }
                         }

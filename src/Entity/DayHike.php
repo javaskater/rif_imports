@@ -7,6 +7,8 @@
 
 namespace Drupal\rif_imports\Entity;
 
+use Drupal\node\Entity\Node;
+
 use Drupal\rif_imports\Entity\TrainRide;
 
 class DayHike {
@@ -29,7 +31,7 @@ class DayHike {
         array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
         array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => array('aller', 'gareDepart')),
         array('field' => 'field_heure_depart_aller', 'csv_pos' => 11, 'attribute' => array('aller', 'heureDepart')),
-        array('field' => 'field_heure_depart_aller', 'csv_pos' => 21, 'attribute' => array('aller', 'gareArrivee')),
+        array('field' => 'field_gare_arrivee_aller', 'csv_pos' => 21, 'attribute' => array('aller', 'gareArrivee')),
         array('field' => 'field_heure_arrivee_aller', 'csv_pos' => 14, 'attribute' => array('aller', 'heureArrivee')),
         array('field' => 'field_gare_depart_retour', 'csv_pos' => 23, 'attribute' => array('retour', 'gareDepart')),
         array('field' => 'field_heure_depart_retour', 'csv_pos' => 15, 'attribute' => array('retour', 'heureDepart')),
@@ -99,11 +101,16 @@ class DayHike {
             $searchedDayHike = \Drupal::entityQuery('node_type')//TODO the Query is related to nodes 
                     ->condition('cle', $this->__data['cle'], '==')
                     ->execute();
-            drush_log(t('DayHike entity: found a DayHike for the cle:@cle; its content is :',array('@cle'=>$this->__data['cle'])));
-            dlm($searchedDayHike);
+
+            if (count($searchedDayHike) > 0) {
+                drush_log(t('DayHike entity: found a DayHike for the cle:@cle; its content is :', array('@cle' => $this->__data['cle'])));
+                dlm($searchedDayHike);
+            } else {
+                drush_log(t('DayHike entity: did not findd a DayHike for the cle:@cle !!!!', array('@cle' => $this->__data['cle'])));
+            }
             return $searchedDayHike;
         } else {
-            drush_log(t('DayHike entity: did not findd a DayHike for the cle:@cle !!!!',array('@cle'=>$this->__data['cle'])));
+            drush_log(t('DayHike entity does not have a valid "cle" value'));
             return false;
         }
     }
@@ -118,40 +125,61 @@ class DayHike {
      * entity_create (see core/include/entity.inc)  is deprecated in favor
      * of Drupal::entityManager/Storage
      */
+
     public function d8InsertOrUpdate($nid = false) {
         $insertedOrUpdated = array('nid' => $nid, 'd8Entity' => false);
-        /*see https://api.drupal.org/api/drupal/core!includes!entity.inc/function/entity_load/8.2.x 
-        * also in core/includes/entity.inc line 79-85
+        /* see https://api.drupal.org/api/drupal/core!includes!entity.inc/function/entity_load/8.2.x 
+         * also in core/includes/entity.inc line 79-85
          * and its use in http://enzolutions.com/articles/2015/12/03/how-to-get-a-list-of-content-types-in-drupal-8/
          */
-        $storage_manager = \Drupal::service('entity.manager')->getStorage('node_type')->load(self::$d8_custom_entity_type);
-        
+        //$storage_manager = \Drupal::service('entity.manager')->getStorage('node_type')->load(self::$d8_custom_entity_type);
+        $entity_manager = \Drupal::entityManager();
+        $node_manager = $entity_manager->getStorage('node_type');
+        $entitites_manager = $node_manager->load(self::$d8_custom_entity_type);
+
         $new_dayhike_values = array();
-        if ($nid){
-            $new_dayhike_values = array('nid' => $nid);
-        }
-        drush_log(t(' -- from DayHike Entity ...'));
-        dlm($this);
+        //drush_log(t(' -- from DayHike Entity ...'));
+        ///dlm($this);
         foreach (self::$d8_csv_mapping as $map_entry) {
             $depth = count($map_entry['attribute']);
-            drush_log(t('depth is @c',array('@c' => $depth)));
+            //drush_log(t('depth is @c',array('@c' => $depth)));
             if ($depth == 1) {
-                $attribute_to_get =  $map_entry['attribute'][0];
+                $attribute_to_get = $map_entry['attribute'][0];
                 $value = $this->$attribute_to_get;
-                drush_log(t(' - getting info from @attr, we got: @val',array('@attr' => $attribute_to_get, '@val'=> $value)));
+                //drush_log(t(' - getting info from @attr, we got: @val',array('@attr' => $attribute_to_get, '@val'=> $value)));
                 $new_dayhike_values[$map_entry['field']] = $value;
             } else if ($depth == 2) {
                 $object_to_set = $map_entry['attribute'][0];
                 $attribute_to_get = $map_entry['attribute'][1];
                 $value = $this->$object_to_set->$attribute_to_get;
-                drush_log(t(' - getting info from @obj->@attr, we got: @val',array('@obj' => $object_to_set, '@attr' => $attribute_to_get, '@val'=> $value)));
+                //drush_log(t(' - getting info from @obj->@attr, we got: @val',array('@obj' => $object_to_set, '@attr' => $attribute_to_get, '@val'=> $value)));
                 $new_dayhike_values[$map_entry['field']] = $value;
             }
         }
-        dlm($new_dayhike_values);
-        $new_day_hike = $storage_manager->create($new_dayhike_values);
-        $d8_entity = $new_day_hike->save();
-        $insertedOrUpdated['d8Entity'] = $d8_entity;
+        //Drupal does not allow a node's title to be empty (think of an article/page)!!!
+        if (!$new_dayhike_values['title']) {
+            $new_dayhike_values['title'] = 'xxxxxxxxxxxxxxxx';
+        }
+        
+        if ($nid) {
+            $new_dayhike_values['nid'] = $nid;
+            drush_log(t(' DayHike Entity: the existing array of values to update  in Drupal8 for the @ct Node/Content Type is:', array('@ct' => self::$d8_custom_entity_type)));
+            dlm($new_dayhike_values);
+            $node = $entitites_manager->save($new_dayhike_values);
+        } else {
+            /*
+             * We create a new Node see 
+             * http://stackoverflow.com/questions/24172791/how-to-programmatically-create-a-node-in-drupal-8
+             * see as counselled the devel module !!!
+             */
+            $new_dayhike_values['type'] = self::$d8_custom_entity_type;
+            drush_log(t(' DayHike Entity: Insertion of new values for the @ct Node/Content Type is:', array('@ct' => self::$d8_custom_entity_type)));
+            dlm($new_dayhike_values);
+            
+            $node = Node::create($new_dayhike_values);
+            $node->save();
+        }
+        $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
         return $insertedOrUpdated;
     }
 
