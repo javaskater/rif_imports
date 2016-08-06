@@ -34,20 +34,24 @@ class ImportRjController extends ImportControllerBase {
     public function insertOrUpdateDayHikes($path_file) {
         $dayHikes = array();
         if (($handle = $this->openfile($path_file)) !== FALSE) { //TODO à remplacer par une 
-            $myDayHike = new DayHike();
             $this->mappingImport = DayHike::$d8_csv_mapping;
             $nodes_inserted = [];
             $nodes_updated = [];
             $treated = 0;
             $row = 0;
             while (($data = fgetcsv($handle)) !== FALSE) {
-                $num = count($data);
-                drush_log(t('- @num champs à la ligne @row: ', array('@num' => $num, '@row' => $row)));
                 if ($row > 0) { //the first line is titles'line !!!
+                    dlm($data);
+                    $num = count($data);
+                    drush_log(t('- @num champs à la ligne @row: ', array('@num' => $num, '@row' => $row)));
+                    $myDayHike = new DayHike();
                     for ($c = 0; $c < $num; $c++) {
                         foreach ($this->mappingImport as $csv_map) {
+                            //dlm($this->mappingImport);
+                            ///drush_log(t('getting csvmap'));
+                            //dlm($csv_map);
                             if ($csv_map['csv_pos'] == $c) {
-                                drush_log(t('++ on va entrer pour la position @c la valeurvaleur @data: ', array('@c' => $c, '@data' => $data[$c])));
+                                ///drush_log(t('++ on va entrer pour la position @c la valeurvaleur @data: ', array('@c' => $c, '@data' => $data[$c])));
                                 if (count($csv_map['attribute']) == 1) {
                                     $attribute_to_set = $csv_map['attribute'][0];
                                     $myDayHike->$attribute_to_set = $data[$c];
@@ -60,29 +64,33 @@ class ImportRjController extends ImportControllerBase {
                             }
                         }
                     }
+                    //drush_log(t('++ ligne @treated avec succes: ', array('@treated' => $treated)));
+                    drush_log(t('from ccontroller ...'));
+                    dlm($myDayHike);
+                    $dayHikes[] = $myDayHike;
+                    $testD8DayHike = $myDayHike->d8Exists();
+                    dlm($testD8DayHike);
+                    $node_id = false;
+                    drush_log('testDayHike vaut:');
+                    //dlm($testD8DayHike);
+                    if ($testD8DayHike) {
+                        $node_id = $testD8DayHike->nid;
+                    }
+                    $finalD8DayHike = $myDayHike->d8InsertOrUpdate($node_id);
+                    //dlm($finalD8DayHike);
+                    if ($finalD8DayHike['nid']) {
+                        $nodes_updated[] = $finalD8DayHike['d8Entity'];
+                    } else {
+                        $nodes_inserted[] = $finalD8DayHike['d8Entity'];
+                    }
                     $treated ++;
                 }
                 $row++;
-                //drush_log(t('++ ligne @treated avec succes: ', array('@treated' => $treated)));
-                $dayHikes[] = $myDayHike;
-                $testD8DayHike = $myDayHike->d8Exists();
-                dlm($testD8DayHike);
-                $node_id=false;
-                if($testD8DayHike){
-                    $node_id=$testD8DayHike->nid;
-                }
-                $finalD8DayHike = $myDayHike->d8InsertOrUpdate($node_id);
-                dlm($finalD8DayHike);
-                if ($finalD8DayHike['nid']) {
-                    $nodes_updated[] = $finalD8DayHike['d8Entity'];
-                } else {
-                    $nodes_inserted[] = $finalD8DayHike['d8Entity'];
-                }
             }
             fclose($handle);
             //drush_log(t('There were @nombre randonnées de journée successfully imported!', array('@nombre' => $imported)), $type = 'ok');
             //dlm($dayHikes);
-            return array('collected_dayhikes'=> $dayHikes, 'new_d8_entities' => $nodes_inserted, 'updated_d8_entities' => $nodes_updated);
+            return array('collected_dayhikes' => $dayHikes, 'new_d8_entities' => $nodes_inserted, 'updated_d8_entities' => $nodes_updated);
         }
         return false;
     }

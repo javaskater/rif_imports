@@ -57,11 +57,12 @@ class DayHike {
      */
 
     public function __get($property) {
+        $result = false;
         if (isset($this->__data[$property])) {
-            return $this->__data[$property];
-        } else {
-            return false;
+            $result = $this->__data[$property];
         }
+        //drush_log(t('from DayHike Entity, getting @p the value obtained is @v',array('@p'=>$property,'@v'=>$result)));
+        return $result;
     }
 
     /*
@@ -71,6 +72,7 @@ class DayHike {
      */
 
     public function __set($property, $value) {
+        //drush_log(t('from DayHike Entity, setting @p with @v',array('@p'=>$property,'@v'=>$value)));
         $this->__data[$property] = $value;
         if ($property == 'date') {
             $property_to_set = 'jourDeplacement';
@@ -90,11 +92,18 @@ class DayHike {
 
     public function d8Exists() {
         if ($this->__data['cle']) {
-            $searchedDayHike = \Drupal::entityQuery(self::$d8_custom_entity_type)
+            /*
+             * the query is related to nodes !!!!
+             * which are contents of self::$d8_custom_entity_type Type ...
+             */
+            $searchedDayHike = \Drupal::entityQuery('node_type')//TODO the Query is related to nodes 
                     ->condition('cle', $this->__data['cle'], '==')
                     ->execute();
+            drush_log(t('DayHike entity: found a DayHike for the cle:@cle; its content is :',array('@cle'=>$this->__data['cle'])));
+            dlm($searchedDayHike);
             return $searchedDayHike;
         } else {
+            drush_log(t('DayHike entity: did not findd a DayHike for the cle:@cle !!!!',array('@cle'=>$this->__data['cle'])));
             return false;
         }
     }
@@ -117,18 +126,29 @@ class DayHike {
          */
         $storage_manager = \Drupal::service('entity.manager')->getStorage('node_type')->load(self::$d8_custom_entity_type);
         
-        $new_dayhike_values = array('nid' => $nid);
-        
+        $new_dayhike_values = array();
+        if ($nid){
+            $new_dayhike_values = array('nid' => $nid);
+        }
+        drush_log(t(' -- from DayHike Entity ...'));
+        dlm($this);
         foreach (self::$d8_csv_mapping as $map_entry) {
-            if (count($map_entry['attribute']) == 1) {
+            $depth = count($map_entry['attribute']);
+            drush_log(t('depth is @c',array('@c' => $depth)));
+            if ($depth == 1) {
                 $attribute_to_get =  $map_entry['attribute'][0];
-                $new_dayhike_values[$map_entry['field']] = $this->$attribute_to_get;
-            } else if (count($map_entry['attribute']) == 2) {
+                $value = $this->$attribute_to_get;
+                drush_log(t(' - getting info from @attr, we got: @val',array('@attr' => $attribute_to_get, '@val'=> $value)));
+                $new_dayhike_values[$map_entry['field']] = $value;
+            } else if ($depth == 2) {
                 $object_to_set = $map_entry['attribute'][0];
                 $attribute_to_get = $map_entry['attribute'][1];
-                $new_dayhike_values[$map_entry['field']] = $this->$object_to_set->$attribute_to_get = $data[$c];
+                $value = $this->$object_to_set->$attribute_to_get;
+                drush_log(t(' - getting info from @obj->@attr, we got: @val',array('@obj' => $object_to_set, '@attr' => $attribute_to_get, '@val'=> $value)));
+                $new_dayhike_values[$map_entry['field']] = $value;
             }
         }
+        dlm($new_dayhike_values);
         $new_day_hike = $storage_manager->create($new_dayhike_values);
         $d8_entity = $new_day_hike->save();
         $insertedOrUpdated['d8Entity'] = $d8_entity;

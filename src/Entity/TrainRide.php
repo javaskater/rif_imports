@@ -41,6 +41,7 @@ class TrainRide {
 
     public function __set($property, $value) {
         //drush_log(t('+++ --- jPour le TrainRide, avant les if ... je sette la propriété: @prop', array('@prop' => substr($property, 0, 4))));
+        //drush_log(t('from TrainRide Entity, setting @p with @v',array('@p'=>$property,'@v'=>$value)));
         if (isset($this->__trainTimes[$property]) && substr($property, 0, 4) == 'jour') {
             $this->__trainTimes[$property] = $this->translateCsvToTime($value);
             return $this->__trainTimes[$property];
@@ -63,13 +64,14 @@ class TrainRide {
      */
 
     public function __get($property) {
+        $result = false;
         if (isset($this->__trainTimes[$property])) {
-            return $this->__trainTimes[$property];
+            $result = $this->__trainTimes[$property];
         } else if (isset($this->__stations[$property])) {
-            return $this->__stations[$property];
-        } else {
-            return false;
+            $result = $this->__stations[$property];
         }
+        //drush_log(t('from TrainRide Entity, getting @p the value obtained is @v',array('@p'=>$property,'@v'=>$result)));
+        return $result;
     }
 
     /*
