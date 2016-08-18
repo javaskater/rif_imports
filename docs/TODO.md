@@ -27,7 +27,7 @@
   * to use [phpdbb](http://phpdbg.com/) (Since version 5.6 of PHP)
   * they present it as command line utility
 
-```sh
+``` bash
 jpmena@jpmena-P34 ~/RIF/d8rif/modules/rif_imports (master=) $ phpdbg -e test.php
 Le programme « phpdbg » n'est pas encore installé. Vous pouvez l'installer en tapant :
 sudo apt install php7.0-phpdbg
@@ -53,8 +53,8 @@ update-alternatives: utilisation de « /usr/bin/phpdbg7.0 » pour fournir « 
 
 Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 `̀``
-  * question does it work in connection with NetBeans ?
 
+* question does it work in connection with NetBeans ?
 * continue working with Batch and controller see [My md page](docs/BATCH.md)
 * Les options de phpdbg que j'utilise beaucoup sont :
   * n: passer à la ligne suivante
@@ -65,6 +65,7 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
   * q ou quit: pour quitter la session !!!
 
 # 26/07/2016 :
+
 * The setting of new value doesnt work ... The object are empty
   * we still have to control that those values are well translated ?
   * à tester avec phpdbg ???
@@ -72,5 +73,18 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 # 31/07/2016
 
 * Toutes les valeurs entrent bien !!!!
-* Le Batchh est à contruire
+* Le Batch est à contruire
   * Bien différencier INSERT et UPDATE !!!
+
+# 18/08/2016
+
+## tester l'ensemble de la châine:
+
+1. Suite à la récupération de la configuration custom via Features,
+2. et son ajout au module (stockage du sous module généré),
+3. Il me reste à tester une installation complète avec insertion des randonnées (et mise à jour) à partir du dernier jeu de fichiers CSV (penser aussi à l'effacement)
+
+## installation sur OVH
+
+* installer le backup résultant sur OVH.
+  * L'installation sur OVH de Drupal 8 reste bloquée ...

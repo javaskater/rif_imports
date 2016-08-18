@@ -39,7 +39,9 @@ $fids = Drupal::entityQuery('file')
 
 ## TODO: importing the custom content type:
 * importing the configuration of my randonnee de Jour Content Type is on the [DAY HIKE IMPORT PAGE](docs/IMPORTS.md)
+
 ## Running the SHELL
+
 * The following command can be placed in a CRON:
 ``` bash
 #the -v option at the end is to allow the NOTICE drush_log messages to be printed out
