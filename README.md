@@ -25,6 +25,11 @@ $fids = Drupal::entityQuery('file')
 ->range(0, 100)
 ->execute();
 ```
+## Complementary issues:
+
+### How I imported the custom content type from an existing installation:
+
+* importing the configuration of my randonnee de Jour Content Type is on the [DAY HIKE IMPORT PAGE](docs/IMPORTS.md)
 
 ## Things to remember:
 * Along the way there are many things I have to remember that is why I need a [TODOs List](docs/TODO.md)
@@ -36,9 +41,6 @@ $fids = Drupal::entityQuery('file')
 * the [Randonneurs Ile de France](http://rifrando.fr) is a french hiking association.
 * so I provided with the module a utility script which install a Drupal8 from scratch along with the french translation and the french locale as default
 * that script is to be found at [*rif_imports/scripts/CMS/Drupal/installNewD8.sh*](https://github.com/javaskater/rif_imports/blob/master/scripts/CMS/Drupal/installNewD8.sh)
-
-## TODO: importing the custom content type:
-* importing the configuration of my randonnee de Jour Content Type is on the [DAY HIKE IMPORT PAGE](docs/IMPORTS.md)
 
 ## Running the SHELL
 
