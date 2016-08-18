@@ -42,13 +42,36 @@ $fids = Drupal::entityQuery('file')
 * so I provided with the module a utility script which install a Drupal8 from scratch along with the french translation and the french locale as default
 * that script is to be found at [*rif_imports/scripts/CMS/Drupal/installNewD8.sh*](https://github.com/javaskater/rif_imports/blob/master/scripts/CMS/Drupal/installNewD8.sh)
 
+## install a global Drush
+
+* I recommend a global drush installation as I explained on my [WIKI Page (sorry in french for the moment)](http://wiki.jpmena.eu/index.php?title=Php:drupal8:drush:installation:igpde)
+
+## Activate the rif_imports module into your fresh Drupal installation
+
+* The [*rif_imports*  project](https://github.com/javaskater/rif_imports) has to be downloaded into your *$DRUPAL_HOME/modules*
+  * on way to do this is via the administrative interface (_Download zip_)
+  * another way is to use a git command:
+    * *git clone https://github.com/javaskater/rif_imports.git*
+
+  * To active the just downloaded *rif_imports* module, just run the following command:
+``̀  bash
+
+``̀
+
+
+## Add the Randonnée de Jour Custom Type and its views
+* For the purpose you just has to activate the embedded *randonnee_de_journee* module (module previously created by feature on a first working drupal 8 installation)
+* __STILL to be explained__
+
 ## Running the SHELL
 
-* The following command can be placed in a CRON:
+* The following command which can be placed in a CRON has to be run:
 ``` bash
 #the -v option at the end is to allow the NOTICE drush_log messages to be printed out
 jpmena@jpmena-P34 ~ $ drush @d8rif.dev rirj --csv="~/RIF/importations/randonnees.csv" -v >d.log 2>&1
 ## the @d8rif.dev drush shortcut had been defined the following way :
+### in this example /home/jpmena/RIF/d8rif is the $DRUPAL_HOME
+#### and http://dru8rif.ovh is the URL for accessing the drupal website on our LAMP
 jpmena@jpmena-P34 ~ $ cat .drush/site-aliases/d8rif.aliases.drushrc.php
 <?php
 $aliases['dev'] = array(
