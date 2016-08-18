@@ -1,0 +1,14 @@
+name: 'Randonnée de Journée'
+description: 'Provides Randonnée de Journée type and related configuration. La randonnée de Journée au RIF !!!'
+type: module
+core: 8.x
+dependencies:
+  - datetime
+  - field
+  - language
+  - menu_ui
+  - node
+  - rest
+  - text
+  - user
+  - views

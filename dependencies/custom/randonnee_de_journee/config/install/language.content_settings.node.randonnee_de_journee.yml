@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.randonnee_de_journee
+id: node.randonnee_de_journee
+target_entity_type_id: node
+target_bundle: randonnee_de_journee
+default_langcode: site_default
+language_alterable: false

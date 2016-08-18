@@ -1,0 +1,20 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_heure_depart_retour
+    - node.type.randonnee_de_journee
+  module:
+    - datetime
+id: node.randonnee_de_journee.field_heure_depart_retour
+field_name: field_heure_depart_retour
+entity_type: node
+bundle: randonnee_de_journee
+label: 'Heure départ retour'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

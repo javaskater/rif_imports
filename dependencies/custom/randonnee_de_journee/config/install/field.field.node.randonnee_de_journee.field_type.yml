@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type
+    - node.type.randonnee_de_journee
+id: node.randonnee_de_journee.field_type
+field_name: field_type
+entity_type: node
+bundle: randonnee_de_journee
+label: type
+description: 'Le type de la  randonnée de journée correspond au champs CSV: Rj_TypeRando)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
