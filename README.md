@@ -55,17 +55,17 @@ $fids = Drupal::entityQuery('file')
 
   * To active the just downloaded *rif_imports* module, just run the following command *drush --root=$DRUPAL_HOME en -y rif_imports*
 
-* at the end we should have passed the following commands:
+* At the end we should have passed the following commands:
 
-``̀  bash
+``` bash
 jpmena@jpmena-HP ~/RIF $ export DRUPAL_HOME=$HOME/RIF/d8rif
-#we Download the module form GITHUB
+#we clone the project in our drupal module directory
 jpmena@jpmena-HP ~/RIF $ cd $DRUPAL_HOME/modules
 jpmena@jpmena-HP ~/RIF/d8rif/modules $ git clone https://github.com/javaskater/rif_imports.git
 Clonage dans 'rif_imports'...
 remote: Counting objects: 196, done.
 remote: Total 196 (delta 0), reused 0 (delta 0), pack-reused 196
-Réception d'objets: 100% (196/196), 79.11 KiB | 0 bytes/s, fait.
+Réception d\'objets: 100% (196/196), 79.11 KiB | 0 bytes/s, fait.
 Résolution des deltas: 100% (93/93), fait.
 Vérification de la connectivité... fait.
 jpmena@jpmena-HP ~/RIF/d8rif/modules $ cd -
@@ -75,8 +75,7 @@ jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y rif_imports
 The following extensions will be enabled: rif_imports
 Do you really want to continue? (y/n): y
 rif_imports was enabled successfully.                                                                                                               [ok]
-``̀
-
+```
 
 ## Add the Randonnée de Jour Custom Type and its views
 * For the purpose you just has to activate the embedded *randonnee_de_journee* module (module previously created by feature on a first working drupal 8 installation)
@@ -86,7 +85,7 @@ rif_imports was enabled successfully.                                           
   * *randonnee_de_journee* module has itself a lot of dependent modules!
 * so we just have pass the following command:
 
-``̀  bash
+``` bash
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y randonnee_de_journee
 The following extensions will be enabled: randonnee_de_journee, serialization, rest
 Do you really want to continue? (y/n): y
@@ -94,8 +93,7 @@ randonnee_de_journee was enabled successfully.                                  
 rest was enabled successfully.                                                                                                                      [ok]
 rest defines the following permissions: restful delete entity:node, restful get entity:node, restful patch entity:node, restful post entity:node
 serialization was enabled successfully.                                                                                                             [ok]
-
-``̀
+```
 
 * the Drupal8 rest modules are automatically downloaded and then activated as the custom type comes with rest services' views .
 
@@ -133,4 +131,4 @@ Error: Call to a member function claimItem() on null in _drush_batch_worker() (l
 Drush command terminated abnormally due to an unrecoverable error.                                                                                  [error]
 ```
 
-* TODO correct mistake during command !!!
+* TODO correct this last command's problems (see [TODO LIST](docs/TODO.md)) !!!
