@@ -88,3 +88,16 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 
 * installer le backup résultant sur OVH.
   * L'installation sur OVH de Drupal 8 reste bloquée ...
+
+# 19/08/2016
+
+## une seule activation
+
+* **TODO: make the rif_imports module dependent from randonnee_de_journee module**
+  * *randonnee_de_journee* module has itself a lot of dependent modules!
+
+## la commande d'import plante
+
+* see README.md file (à la racine)
+  * Beaucoup de randonnées de journées on été importées
+  * pourquoi la clé est encore -1 !!!

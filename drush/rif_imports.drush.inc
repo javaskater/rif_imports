@@ -15,7 +15,7 @@ function rif_imports_drush_command() {
             'csv' => 'path of the csv file to import the day hikes from ...',
         ),
         'examples' => array(
-            'drush rif-import-randos-jours csv="~/RIF/importations/randonnees.csv"' => 'import day hikes from the specified file',
+            'drush rif-import-randos-jours csv="~/RIF/importations/randonnees.csv"' => 'import day hikes from the specified csv file',
         ),
         'aliases' => array('rirj'),
     );
