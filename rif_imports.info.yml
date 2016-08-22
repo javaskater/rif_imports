@@ -8,3 +8,11 @@ package: Development
 version: '8.x-0.1-alpha1'
 core: '8.x'
 project: 'rif-imports'
+
+#the content type definition is one of the dependencies (relative path dependencies/custom/randonnee_de_journee)
+## I need the content type randonnee_de_journee to be defined before importing the corresponding entities
+#delete_all is another dependency as it allow me to delete the node of type Randonnée de Journée 
+## through the command: drush @d8rif.dev dadc randonnee_de_journee
+dependencies:
+  - randonnee_de_journee
+  - delete_all

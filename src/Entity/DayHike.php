@@ -25,7 +25,7 @@ class DayHike {
      * - the second name is the name of the attribute of the preceding TrainRide Object
      */
     public static $d8_csv_mapping = array(//Certains se rapprochent de la DayHike et d'autres du TrainRide ...
-        array('field' => 'cle', 'csv_pos' => O, 'attribute' => array('cle')),
+        array('field' => 'field_cle', 'csv_pos' => O, 'attribute' => array('cle')),
         array('field' => 'body', 'csv_pos' => 22, 'attribute' => array('itineraire')),
         array('field' => 'title', 'csv_pos' => 4, 'attribute' => array('titre')),
         array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
@@ -177,7 +177,10 @@ class DayHike {
             dlm($new_dayhike_values);
             
             $node = Node::create($new_dayhike_values);
+            drush_log("+++++ just before inserting ....");
+            dlm($new_dayhike_values);
             $node->save();
+            drush_log("+++++ just after inserting ....");
         }
         $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
         return $insertedOrUpdated;

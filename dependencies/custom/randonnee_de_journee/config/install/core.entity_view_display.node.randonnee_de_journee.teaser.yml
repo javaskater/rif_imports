@@ -1,4 +1,4 @@
-langcode: en
+langcode: fr
 status: true
 dependencies:
   config:
@@ -9,7 +9,7 @@ dependencies:
     - field.field.node.randonnee_de_journee.field_date
     - field.field.node.randonnee_de_journee.field_gare_arrivee_aller
     - field.field.node.randonnee_de_journee.field_gare_arrivee_retour
-    - field.field.node.randonnee_de_journee.field_gare_depart
+    - field.field.node.randonnee_de_journee.field_gare_depart_aller
     - field.field.node.randonnee_de_journee.field_gare_depart_retour
     - field.field.node.randonnee_de_journee.field_heure_arrivee_aller
     - field.field.node.randonnee_de_journee.field_heure_arrivee_retour
@@ -42,7 +42,7 @@ hidden:
   field_date: true
   field_gare_arrivee_aller: true
   field_gare_arrivee_retour: true
-  field_gare_depart: true
+  field_gare_depart_aller: true
   field_gare_depart_retour: true
   field_heure_arrivee_aller: true
   field_heure_arrivee_retour: true

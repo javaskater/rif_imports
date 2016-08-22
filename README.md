@@ -1,4 +1,4 @@
-# Drupal 8 Module
+lau# Drupal 8 Module
 ## Target/History
 
 ## orgin of the need
@@ -72,18 +72,22 @@ jpmena@jpmena-HP ~/RIF/d8rif/modules $ cd -
 /home/jpmena/RIF
 #we activate the module
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y rif_imports
-The following extensions will be enabled: rif_imports
+The following extensions will be enabled: rif_imports, delete_all, randonnee_de_journee, serialization, rest
 Do you really want to continue? (y/n): y
 rif_imports was enabled successfully.                                                                                                               [ok]
+randonnee_de_journee was enabled successfully.                                                                                                      [ok]
+rest was enabled successfully.                                                                                                                      [ok]
+rest defines the following permissions: restful delete entity:node, restful get entity:node, restful patch entity:node, restful post entity:node
+serialization was enabled successfully.                                                                                                             [ok]
 ```
 
-## Add the Randonnée de Jour Custom Type and its views
+### enabling the mdoules has added the Randonnée de Jour Custom Type and its views
 * For the purpose you just has to activate the embedded *randonnee_de_journee* module (module previously created by feature on a first working drupal 8 installation)
 * we have just to activate : *modules/rif_imports/dependencies/custom/randonnee_de_journee*
   * as the directory *randonnee_de_journee* is already under the *module* directory, drush has no problem seing it ....
 * **TODO: make the rif_imports module dependent from randonnee_de_journee module**
   * *randonnee_de_journee* module has itself a lot of dependent modules!
-* so we just have pass the following command:
+* If it was not a dependent module so we would have had to pass the following command:
 
 ``` bash
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y randonnee_de_journee
@@ -122,13 +126,16 @@ function rif_imports_drush_command() {
   * the module comes with sample csv files, so we will use theis for this example
 
 ``` bash
-jpmena@jpmena-HP ~ $ drush --root=$DRUPAL_HOME rirj --csv=$DRUPAL_HOME/modules/rif_imports/examples/csvfiles/randonnees.csv
-Invalid argument supplied for foreach() batch.inc:47                                                                                                [warning]
-Error: Call to a member function claimItem() on null in _drush_batch_worker() (line 146 of                                                          [error]
-phar:///usr/local/bin/drush/commands/core/drupal/batch.inc).
-Error: Call to a member function claimItem() on null in phar:///usr/local/bin/drush/commands/core/drupal/batch.inc on line 146
-Error: Call to a member function claimItem() on null in _drush_batch_worker() (line 146 of phar:///usr/local/bin/drush/commands/core/drupal/batch.inc).
-Drush command terminated abnormally due to an unrecoverable error.                                                                                  [error]
+jpmena@jpmena-HP ~/RIF $ export DRUPAL_HOME=$HOME/RIF/d8rif
+jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME rirj --csv=$DRUPAL_HOME/modules/rif_imports/examples/csvfiles/randonnees.sample.csv
 ```
 
-* TODO correct this last command's problems (see [TODO LIST](docs/TODO.md)) !!!
+### enabling the mdoules has also downloaded and enabled the delete_all module
+
+* Target of that module:
+   * empty all the users
+   * empty  all the content of **Randonnée de Journée** type!
+
+   ``` bash
+
+   ```

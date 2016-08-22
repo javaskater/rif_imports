@@ -101,3 +101,11 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 * see README.md file (à la racine)
   * Beaucoup de randonnées de journées on été importées
   * pourquoi la clé est encore -1 !!!
+
+# 22/08/2016
+
+* la présentation des heures n'est pas homogène dans la vue par défaut
+* Ajouter le champs type
+  * Il a été déjà défini dans le formulaire !!!
+* tester la reprise sur des randonnées existante
+* créer le delete et tester

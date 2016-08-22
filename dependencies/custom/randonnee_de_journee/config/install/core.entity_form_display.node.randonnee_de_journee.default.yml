@@ -1,4 +1,4 @@
-langcode: en
+langcode: fr
 status: true
 dependencies:
   config:
@@ -8,7 +8,7 @@ dependencies:
     - field.field.node.randonnee_de_journee.field_date
     - field.field.node.randonnee_de_journee.field_gare_arrivee_aller
     - field.field.node.randonnee_de_journee.field_gare_arrivee_retour
-    - field.field.node.randonnee_de_journee.field_gare_depart
+    - field.field.node.randonnee_de_journee.field_gare_depart_aller
     - field.field.node.randonnee_de_journee.field_gare_depart_retour
     - field.field.node.randonnee_de_journee.field_heure_arrivee_aller
     - field.field.node.randonnee_de_journee.field_heure_arrivee_retour
@@ -65,7 +65,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-  field_gare_depart:
+  field_gare_depart_aller:
     weight: 6
     settings:
       size: 60

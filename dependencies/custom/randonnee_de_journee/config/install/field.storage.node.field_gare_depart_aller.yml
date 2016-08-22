@@ -1,10 +1,10 @@
-langcode: en
+langcode: fr
 status: true
 dependencies:
   module:
     - node
-id: node.field_gare_depart
-field_name: field_gare_depart
+id: node.field_gare_depart_aller
+field_name: field_gare_depart_aller
 entity_type: node
 type: string
 settings:

@@ -58,17 +58,8 @@ function drush_rif_imports_rif_import_randos_jours() {
     // Get the hiking content to import
     $hikes_to_insert_or_update = $importer->insertOrUpdateDayHikes($path_file);
     //dlm($hikes_to_insert_or_update);
-    // Get batch array.
-    //$batch = $importer->getContentInsertBatch($hikes_to_insert_or_update['dayhikes_to_insert']);
 
-    $node = node_load(55);
-
-    // Initialize the batch.
-    batch_set($batch);
-
-    // Start the batch process.
-    drush_backend_batch_process();
-
+    //$node = node_load(55);
     //$batch = $importer->getContentUpdatetBatch($hikes_to_insert_or_update['dayhikes_to_update']);
     // Initialize the batch.
     //batch_set($batch);

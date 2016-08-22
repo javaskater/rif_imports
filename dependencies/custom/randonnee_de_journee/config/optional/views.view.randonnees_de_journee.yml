@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_date
-    - field.storage.node.field_gare_depart
+    - field.storage.node.field_gare_depart_aller
     - field.storage.node.field_gare_depart_retour
     - field.storage.node.field_heure_depart_aller
     - field.storage.node.field_heure_depart_retour
@@ -191,10 +191,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_gare_depart:
-          id: field_gare_depart
-          table: node__field_gare_depart
-          field: field_gare_depart
+        field_gare_depart_aller:
+          id: field_gare_depart_aller
+          table: node__field_gare_depart_aller
+          field: field_gare_depart_aller
           relationship: none
           group_type: group
           admin_label: ''
@@ -502,7 +502,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_date'
-        - 'config:field.storage.node.field_gare_depart'
+        - 'config:field.storage.node.field_gare_depart_aller'
         - 'config:field.storage.node.field_gare_depart_retour'
         - 'config:field.storage.node.field_heure_depart_aller'
         - 'config:field.storage.node.field_heure_depart_retour'
@@ -532,7 +532,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_date'
-        - 'config:field.storage.node.field_gare_depart'
+        - 'config:field.storage.node.field_gare_depart_aller'
         - 'config:field.storage.node.field_gare_depart_retour'
         - 'config:field.storage.node.field_heure_depart_aller'
         - 'config:field.storage.node.field_heure_depart_retour'
@@ -560,7 +560,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_date'
-        - 'config:field.storage.node.field_gare_depart'
+        - 'config:field.storage.node.field_gare_depart_aller'
         - 'config:field.storage.node.field_gare_depart_retour'
         - 'config:field.storage.node.field_heure_depart_aller'
         - 'config:field.storage.node.field_heure_depart_retour'
@@ -595,7 +595,7 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_date'
-        - 'config:field.storage.node.field_gare_depart'
+        - 'config:field.storage.node.field_gare_depart_aller'
         - 'config:field.storage.node.field_gare_depart_retour'
         - 'config:field.storage.node.field_heure_depart_aller'
         - 'config:field.storage.node.field_heure_depart_retour'
