@@ -1,4 +1,5 @@
-lau# Drupal 8 Module
+# Drupal 8 Module
+
 ## Target/History
 
 ## orgin of the need
@@ -79,22 +80,28 @@ jpmena@jpmena-HP ~/RIF/d8rif/modules $ cd -
 ``` bash
 #we activate the module
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y rif_imports
-The following extensions will be enabled: rif_imports, delete_all, randonnee_de_journee, serialization, rest
+The following projects have unmet dependencies:                                                                                                     [ok]
+rif_imports requires delete_all
+Would you like to download them? (y/n): y
+Project delete_all (8.x-1.0-alpha1) downloaded to /home/jpmena/RIF/d8rif//modules/delete_all.                                                       [success]
+The following extensions will be enabled: rif_imports, delete_all, serialization, rest, randonnee_de_journee
 Do you really want to continue? (y/n): y
-rif_imports was enabled successfully.                                                                                                               [ok]
+delete_all was enabled successfully.                                                                                                                [ok]
 randonnee_de_journee was enabled successfully.                                                                                                      [ok]
 rest was enabled successfully.                                                                                                                      [ok]
 rest defines the following permissions: restful delete entity:node, restful get entity:node, restful patch entity:node, restful post entity:node
+rif_imports was enabled successfully.                                                                                                               [ok]
 serialization was enabled successfully.                                                                                                             [ok]
 ```
 
 ### enabling the *rif_imports* module has added the *Randonnée de Jour* Custom Type and its views
-* For the purpose you just has to activate the embedded *randonnee_de_journee* module (module previously created by feature on a first working drupal 8 installation)
-* we have just to activate : *modules/rif_imports/dependencies/custom/randonnee_de_journee*
-  * as the directory *randonnee_de_journee* is already under the *module* directory, drush has no problem seing it ....
-* **TODO: make the rif_imports module dependent from randonnee_de_journee module**
-  * *randonnee_de_journee* module has itself a lot of dependent modules!
-* If it was not a dependent module so we would have had to pass the following command:
+* *rif_imports* activation activated also the embedded *randonnee_de_journee* module (module previously created by feature on a first working drupal 8 installation)
+  * so we don't have to activate *rif_imports/dependencies/custom/randonnee_de_journee* by ourselves:
+    * as the directory *randonnee_de_journee* is already under the *module* directory, drush has no problem seing it and activating it as a dependant module like *rest* for example...
+  * *rif_imports/dependencies/custom/randonnee_de_journee* module has itself a lot of dependent modules!
+    * the Drupal8 rest modules are automatically downloaded and then activated as the custom type *randonnee_de_journee* had been initially defined with a rest services' view (a view for web's rest services).
+
+* **NB** : If *rif_imports/dependencies/custom/randonnee_de_journee* was not automatically activated as dependent *rif_imports* dependant module we would have had to pass the following command:
 
 ``` bash
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y randonnee_de_journee
@@ -105,8 +112,6 @@ rest was enabled successfully.                                                  
 rest defines the following permissions: restful delete entity:node, restful get entity:node, restful patch entity:node, restful post entity:node
 serialization was enabled successfully.                                                                                                             [ok]
 ```
-
-* the Drupal8 rest modules are automatically downloaded and then activated as the custom type comes with rest services' views .
 
 ## Running the SHELL
 
@@ -136,13 +141,43 @@ function rif_imports_drush_command() {
 jpmena@jpmena-HP ~/RIF $ export DRUPAL_HOME=$HOME/RIF/d8rif
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME rirj --csv=$DRUPAL_HOME/modules/rif_imports/examples/csvfiles/randonnees.sample.csv
 ```
+* randonnees.sample.csv has only 2 lines... So I imported only two day-hikes!!!
 
 ### enabling the mdoules has also downloaded and enabled the delete_all module
 
+* I decided to define the *delete_all* module as a dependency of my *rif_imports* module (like for *randonnee_de_journee*)!
+  * the content of module's definition file (*rif_imports/rif_imports.info.yml*) is in fact
+
+``` yaml
+type: module
+name: Imports RIF's Hikes insite Drupal
+description: Update the RIF's Drupal with the csv exports of the RIF's ACCESS Database
+package: Development
+# core: '8.x'
+
+# Information added by Drupal.org packaging script on 2016-05-16
+version: '8.x-0.1-alpha1'
+core: '8.x'
+project: 'rif-imports'
+
+#the content type definition is one of the dependencies (relative path dependencies/custom/randonnee_de_journee)
+## I need the content type randonnee_de_journee to be defined before importing the corresponding entities
+#delete_all is another dependency as it allow me to delete the node of type Randonnée de Journée
+## through the command: drush @d8rif.dev dadc randonnee_de_journee
+dependencies:
+  - randonnee_de_journee
+  - delete_all
+```
+
 * Target of that module:
    * empty all the users
-   * empty  all the content of **Randonnée de Journée** type!
+   * empty  all the content of a custom entity type!
+* I will empty all the content of type *randonnee_de_journee* c
 
    ``` bash
-
+   jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME dadc --type randonnee_de_journee
+   Deleting node with nid 1                                                                                                                            [ok]
+   Deleting node with nid 2                                                                                                                            [ok]
+   Deleted 2 nodes.                                                                                                                                    [status]
    ```
+* As I previously imported only 2 dayhikes, there are now only 2 dayhikes to be removed (2 nodes deleted)

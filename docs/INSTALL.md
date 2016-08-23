@@ -101,10 +101,12 @@ Archive saved to /home/jpmena/RIF/d8rif_fr_20160823_111051.tar                  
 
 ## Conclusions
 
-* from the console/LogFile we see that:
+* from the console/Logfile we see that:
   * the script took 35 minutes (start: 10:36:49, end: 11:11:06) it ran:
-    * on a Celeron with 16GBytes of DDR2 rename
-    * Ubuntu 16.04's LAMP
+    * on a Celeron with 16GBytes of DDR2 RAM
+    * and an Ubuntu 16.04's LAMP
 * You don't need to rerun the script if anything goes wrong:
-  * a drush's backup has been created by the install at */home/jpmena/RIF/d8rif_fr_20160823_111051.tar*
-  * just recreate the emty Druapl 8 RIF's pre-configured site with that backup
+  * a drush's backup has been created by the script after the install process (to be found at *$HOME/RIF/d8rif_fr_20160823_111051.tar* in my test)
+  * to restore that backup will recreate an empty *Drupal 8 / RIF* pre-configured site
+    * without this *rif_imports* module...
+    * See [Main Documentation Page](../README.md#activate-the-rif_imports-module-into-your-fresh-drupal-installation) for the completion of the installation...
