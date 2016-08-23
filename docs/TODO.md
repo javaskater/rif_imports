@@ -52,7 +52,7 @@ Paramétrage de php7.0-phpdbg (7.0.8-0ubuntu0.16.04.1) ...
 update-alternatives: utilisation de « /usr/bin/phpdbg7.0 » pour fournir « /usr/bin/phpdbg » (phpdbg) en mode automatique
 
 Creating config file /etc/php/7.0/phpdbg/php.ini with new version
-`̀``
+```
 
 * question does it work in connection with NetBeans ?
 * continue working with Batch and controller see [My md page](docs/BATCH.md)
@@ -112,7 +112,18 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 
 # 23/08/2016
 
+## partie randonnées
+
 * tester la reprise sur des randonnées existantes
 * créer le delete et tester
 * Attacher les randonnées à leurs animateurs
-  * précondition: créer les animateurs ...
+  * précondition: créer les animateurs ?
+
+## partie animateurs/adherents
+
+* créer Adhérents/animateurs
+* distinguer randonnee display
+  * anonyme
+  * adhérent (Gares/Heures)
+  * animateur (peut modifier/supprimer sa randonnée)
+  * Toute configuration est à exporter via Features  notamment
