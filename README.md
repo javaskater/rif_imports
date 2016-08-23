@@ -143,9 +143,9 @@ jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME rirj --csv=$DRUPAL_HOME/modul
 ```
 * randonnees.sample.csv has only 2 lines... So I imported only two day-hikes!!!
 
-### enabling the *rif_imports* module has also downloaded and enabled the *delete_all* module
+### enabling the *rif_imports* module has also downloaded and enabled the [*delete_all*](https://www.drupal.org/project/delete_all) module
 
-* I decided to define the *delete_all* module as a dependency of my *rif_imports* module (like for *randonnee_de_journee*)!
+* I decided to define the [*delete_all*](https://www.drupal.org/project/delete_all) module as a dependency of my *rif_imports* module (like for *randonnee_de_journee*)!
   * the content of module's definition file (*rif_imports/rif_imports.info.yml*) is in fact
 
 ``` yaml
@@ -169,10 +169,11 @@ dependencies:
   - delete_all
 ```
 
-* Target of that module:
+* Target of the [delete_all](https://www.drupal.org/project/delete_all) module:
    * empty all the users
    * empty  all the content of a custom entity type!
-* I will empty all the content of type *randonnee_de_journee* c
+* I want to empty all the content of type *randonnee_de_journee* (reinitiate my RIF's Drupal8 with fresh content):
+  * to that purpose, I only have to pass the following comand:
 
    ``` bash
    jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME dadc --type randonnee_de_journee
