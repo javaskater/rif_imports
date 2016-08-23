@@ -143,7 +143,7 @@ jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME rirj --csv=$DRUPAL_HOME/modul
 ```
 * randonnees.sample.csv has only 2 lines... So I imported only two day-hikes!!!
 
-### enabling the mdoules has also downloaded and enabled the delete_all module
+### enabling the *rif_imports* module has also downloaded and enabled the *delete_all* module
 
 * I decided to define the *delete_all* module as a dependency of my *rif_imports* module (like for *randonnee_de_journee*)!
   * the content of module's definition file (*rif_imports/rif_imports.info.yml*) is in fact
