@@ -26,6 +26,7 @@ class DayHike {
      */
     public static $d8_csv_mapping = array(//Certains se rapprochent de la DayHike et d'autres du TrainRide ...
         array('field' => 'field_cle', 'csv_pos' => O, 'attribute' => array('cle')),
+        array('field' => 'field_type', 'csv_pos' => 2, 'attribute' => array('type')),
         array('field' => 'body', 'csv_pos' => 22, 'attribute' => array('itineraire')),
         array('field' => 'title', 'csv_pos' => 4, 'attribute' => array('titre')),
         array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
@@ -44,7 +45,7 @@ class DayHike {
      * see paragraph 7.11 of PHP In Action
      * OReilly Books ...
      */
-    protected $__data = array('cle' => false, 'itineraire' => false, 'titre' => false,
+    protected $__data = array('cle' => false, 'type' => false, 'itineraire' => false, 'titre' => false,
         'date' => false, 'aller' => false, 'retour' => false);
 
     public function __construct() {

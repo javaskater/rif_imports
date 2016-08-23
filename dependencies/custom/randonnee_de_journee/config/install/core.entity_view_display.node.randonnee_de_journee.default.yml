@@ -94,7 +94,7 @@ content:
     weight: 12
     label: above
     settings:
-      format_type: medium
+      format_type: html_time
       timezone_override: ''
     third_party_settings: {  }
     type: datetime_default
@@ -102,7 +102,7 @@ content:
     weight: 6
     label: above
     settings:
-      format_type: medium
+      format_type: html_time
       timezone_override: ''
     third_party_settings: {  }
     type: datetime_default
@@ -110,7 +110,7 @@ content:
     weight: 10
     label: above
     settings:
-      format_type: medium
+      format_type: html_time
       timezone_override: ''
     third_party_settings: {  }
     type: datetime_default

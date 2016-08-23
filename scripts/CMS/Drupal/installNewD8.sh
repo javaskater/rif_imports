@@ -87,6 +87,14 @@ main(){
 		trace " - changing rights at ${DEFAULT_DIR} : KO (see ${LOGFILE})"
 		exit 1
 	fi
+	trace " + adding complementaries modules and themes"
+	$DRUSH --root=${PHPPROJECT} en -y features bootstrap
+	if [ $? -eq 0 ]; then
+		trace " - adding complementaries modules and themes : OK"
+	else
+		trace " - adding complementaries modules and themes : KO (see ${LOGFILE})"
+		exit 1
+	fi
 	trace " End of the installation ..."
 	trace " Making a Backup of the freshly installed Drupal 8 WebSite ..."
 	BACKUPFILE="${PHPPROJECT}_${LOCALE}_$(date +%Y%m%d_%H%M%S).tar"
