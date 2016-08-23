@@ -12,7 +12,7 @@
 ## Ressources
 
 * The code has been strongly inspired by the [Drupal Delete All Module](https://www.drupal.org/project/delete_all)
-* for handdling with batches, I started [page about batches](docs/BATCH.md)
+* for handling with batches, I started [page about batches](docs/BATCH.md)
 
 # Other Topics
 
@@ -40,9 +40,9 @@ $fids = Drupal::entityQuery('file')
 ## install a brand new Drupal 8 in french
 
 * the [Randonneurs Ile de France](http://rifrando.fr) is a french hiking association.
-* so I provided with the module a utility script which install a Drupal8 from scratch along with the french translation and the french locale as default
+* so I provided with the module a utility script which install a [Drupal 8](https://www.drupal.org/8) from scratch along with the french translation and the french locale as default
 * that script is to be found at [*rif_imports/scripts/CMS/Drupal/installNewD8.sh*](https://github.com/javaskater/rif_imports/blob/master/scripts/CMS/Drupal/installNewD8.sh)
-* for an example and the result of that command see th [Automatic installation section](docs/INSTALL.md)
+* for an example and the result of that command see the [Automatic installation section](docs/INSTALL.md)
 
 ## install a global Drush
 
