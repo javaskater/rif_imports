@@ -41,6 +41,7 @@ $fids = Drupal::entityQuery('file')
 * the [Randonneurs Ile de France](http://rifrando.fr) is a french hiking association.
 * so I provided with the module a utility script which install a Drupal8 from scratch along with the french translation and the french locale as default
 * that script is to be found at [*rif_imports/scripts/CMS/Drupal/installNewD8.sh*](https://github.com/javaskater/rif_imports/blob/master/scripts/CMS/Drupal/installNewD8.sh)
+* for an example and the result of that command see th [Automatic installation section](docs/INSTALL.md)
 
 ## install a global Drush
 
@@ -56,6 +57,7 @@ $fids = Drupal::entityQuery('file')
   * To active the just downloaded *rif_imports* module, just run the following command *drush --root=$DRUPAL_HOME en -y rif_imports*
 
 * At the end we should have passed the following commands:
+  * Cloning [rif_imports](https://github.com/javaskater/rif_imports) inside the *$DRUPAL_HOME/modules*
 
 ``` bash
 jpmena@jpmena-HP ~/RIF $ export DRUPAL_HOME=$HOME/RIF/d8rif
@@ -70,6 +72,11 @@ Résolution des deltas: 100% (93/93), fait.
 Vérification de la connectivité... fait.
 jpmena@jpmena-HP ~/RIF/d8rif/modules $ cd -
 /home/jpmena/RIF
+```
+
+  * Activating *$DRUPAL_HOME/modules/rif_imports* module via the global **drush**:
+
+``` bash
 #we activate the module
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME en -y rif_imports
 The following extensions will be enabled: rif_imports, delete_all, randonnee_de_journee, serialization, rest
@@ -81,7 +88,7 @@ rest defines the following permissions: restful delete entity:node, restful get 
 serialization was enabled successfully.                                                                                                             [ok]
 ```
 
-### enabling the mdoules has added the Randonnée de Jour Custom Type and its views
+### enabling the *rif_imports* module has added the *Randonnée de Jour* Custom Type and its views
 * For the purpose you just has to activate the embedded *randonnee_de_journee* module (module previously created by feature on a first working drupal 8 installation)
 * we have just to activate : *modules/rif_imports/dependencies/custom/randonnee_de_journee*
   * as the directory *randonnee_de_journee* is already under the *module* directory, drush has no problem seing it ....
