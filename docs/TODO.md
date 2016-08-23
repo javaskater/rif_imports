@@ -107,5 +107,12 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
 * la présentation des heures n'est pas homogène dans la vue par défaut
 * Ajouter le champs type
   * Il a été déjà défini dans le formulaire !!!
-* tester la reprise sur des randonnées existante
+* tester la reprise sur des randonnées existantes
 * créer le delete et tester
+
+# 23/08/2016
+
+* tester la reprise sur des randonnées existantes
+* créer le delete et tester
+* Attacher les randonnées à leurs animateurs
+  * précondition: créer les animateurs ...

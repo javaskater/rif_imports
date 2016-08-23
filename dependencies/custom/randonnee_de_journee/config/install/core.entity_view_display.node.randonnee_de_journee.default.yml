@@ -26,7 +26,7 @@ bundle: randonnee_de_journee
 mode: default
 content:
   body:
-    label: hidden
+    label: above
     type: text_default
     weight: 3
     settings: {  }
