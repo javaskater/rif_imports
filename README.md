@@ -115,8 +115,10 @@ serialization was enabled successfully.                                         
 
 ## Running the SHELL
 
-* We just hav to run the first drush command imported by the module *rif_imports* which is:
-  * underneath is the corresponding extract of *$DRUPAL_HOME/modules/rif_imports/drush/rif_imports.drush.inc*
+### I want to import the DayHikes exported from ACCESS through a csv file
+
+* We just hav to run the first drush command exported by the *rif_imports* module which is:
+  * defined underneath is the corresponding extract of *$DRUPAL_HOME/modules/rif_imports/drush/rif_imports.drush.inc*
 
 ``` php
 function rif_imports_drush_command() {
@@ -134,14 +136,49 @@ function rif_imports_drush_command() {
     );
 ```
 
-* So we will use the __rirj__ drush command with the path to the csv file containing the Day's Hikes to be imported:
-  * the module comes with sample csv files, so we will use theis for this example
+* So we will use the __rirj__ drush command together with the path to the csv file containing the Day's Hikes to be imported:
+  * the module comes with sample csv files, so we will use those ones for this example
 
 ``` bash
 jpmena@jpmena-HP ~/RIF $ export DRUPAL_HOME=$HOME/RIF/d8rif
 jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME rirj --csv=$DRUPAL_HOME/modules/rif_imports/examples/csvfiles/randonnees.sample.csv
 ```
 * randonnees.sample.csv has only 2 lines... So I imported only two day-hikes!!!
+
+### I want to remove the DayHikes that ACCESS exported in the csv file enfing with _eff.csv_
+
+* We just hav to run the second drush command exported by the *rif_imports*  module which is :
+  *  defined underneath is the corresponding extract of *$DRUPAL_HOME/modules/rif_imports/drush/rif_imports.drush.inc*
+
+``` php
+function rif_imports_drush_command() {
+    $items = array();
+
+    ................................
+
+    $items['rif-efface-randos-jours'] = array(
+    'description' => 'Remove Days Hikes (Drupal 8 Rando-Journee content type) contained in the csv file from Drupal',
+    'options' => array(
+        'csv' => 'path of the csv file where the day hikes to remove are specified ...',
+    ),
+    'examples' => array(
+        'drush rif-efface-randos-jours csv="~/RIF/importations/randonnees.eff.csv"' => 'remove day hikes specified the csv file',
+    ),
+    'aliases' => array('rerj'),
+);
+```
+
+* So we will use the __rerj__ drush command with the path to the csv file containing the Day's Hikes to be imported:
+  * __e__ stands for _efface_ which is the french translation of remove !!!
+  * the module comes with sample csv files, so we will use those ones for this example
+
+``` bash
+jpmena@jpmena-HP ~/RIF $ export DRUPAL_HOME=$HOME/RIF/d8rif
+jpmena@jpmena-HP ~/RIF $ drush --root=$DRUPAL_HOME rerj --csv=$DRUPAL_HOME/modules/rif_imports/examples/csvfiles/randonnees.sample.eff.csv
+from 2 dayhikes to remove, 1 effectively removed !!!
+```
+* randonnees.sample.eff.csv has only 2 lines... So I rmoved only the day-hike the has a _cle_ equal to __31018__ !!!
+
 
 ### enabling the *rif_imports* module has also downloaded and enabled the [*delete_all*](https://www.drupal.org/project/delete_all) module
 

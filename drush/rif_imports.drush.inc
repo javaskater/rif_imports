@@ -71,8 +71,19 @@ function drush_rif_imports_rif_import_randos_jours() {
  * Drush callback to remove Day Hikes.
  */
 function drush_rif_imports_rif_efface_randos_jours() {
-    $effaces = 0;
-    drush_log(t('supprimé avec succès @nombre randonnées de journée !', array('@nombre' => $effaces)), $type = 'ok');
+    $path_file = drush_get_option("csv");
+    drush_log(t('onva lire depui @csv', array('@csv' => $path_file)));
+
+    $importer = new ImportRjController();
+
+
+    // Get the hiking content to import
+    $hikes_deleted = $importer->deleteDayHikes($path_file);
+    if ($hikes_deleted){
+        drush_log(t('from @tr dayhikes to remove, @rd effectively removed !!!', array('@tr' => $hikes_deleted['to_remove'], '@rd' => $hikes_deleted['removed'])), $type = 'ok');
+    } else {
+        drush_log(t('no dayhikes to remove !!!'), $type = 'warning');
+    }
 }
 
 /**

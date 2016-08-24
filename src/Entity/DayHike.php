@@ -8,7 +8,6 @@
 namespace Drupal\rif_imports\Entity;
 
 use Drupal\node\Entity\Node;
-
 use Drupal\rif_imports\Entity\TrainRide;
 
 class DayHike {
@@ -97,19 +96,20 @@ class DayHike {
         if ($this->__data['cle']) {
             /*
              * the query is related to nodes !!!!
-             * which are contents of self::$d8_custom_entity_type Type ...
+             * see drush tests at rif_imports/drush/tests/DayHikeQueryTest.php
+             * it returns an array of ids
              */
-            $searchedDayHike = \Drupal::entityQuery('node_type')//TODO the Query is related to nodes 
-                    ->condition('cle', $this->__data['cle'], '==')
+            $dayHikeNids = \Drupal::entityQuery('node')//TODO the Query is related to nodes 
+                    ->condition('field_cle', $this->__data['cle'], '=')
                     ->execute();
-
-            if (count($searchedDayHike) > 0) {
+            drush_log(t('+ for cle @c I got ....', array('@c' => $this->__data['cle'])));
+            if (count($dayHikeNids) > 0) {
                 drush_log(t('DayHike entity: found a DayHike for the cle:@cle; its content is :', array('@cle' => $this->__data['cle'])));
-                dlm($searchedDayHike);
+                dlm($dayHikeNids);
             } else {
                 drush_log(t('DayHike entity: did not findd a DayHike for the cle:@cle !!!!', array('@cle' => $this->__data['cle'])));
             }
-            return $searchedDayHike;
+            return $dayHikeNids;
         } else {
             drush_log(t('DayHike entity does not have a valid "cle" value'));
             return false;
@@ -127,8 +127,8 @@ class DayHike {
      * of Drupal::entityManager/Storage
      */
 
-    public function d8InsertOrUpdate($nid = false) {
-        $insertedOrUpdated = array('nid' => $nid, 'd8Entity' => false);
+    public function d8InsertOrUpdate($nids = false) {
+        $insertedOrUpdated = array('nid' => false, 'd8Entity' => false);
         /* see https://api.drupal.org/api/drupal/core!includes!entity.inc/function/entity_load/8.2.x 
          * also in core/includes/entity.inc line 79-85
          * and its use in http://enzolutions.com/articles/2015/12/03/how-to-get-a-list-of-content-types-in-drupal-8/
@@ -161,13 +161,17 @@ class DayHike {
         if (!$new_dayhike_values['title']) {
             $new_dayhike_values['title'] = 'xxxxxxxxxxxxxxxx';
         }
-        
-        if ($nid) {
+
+        if ($nids && count($nids) == 1) {
+            $nid = $nids[0];
             $new_dayhike_values['nid'] = $nid;
             drush_log(t(' DayHike Entity: the existing array of values to update  in Drupal8 for the @ct Node/Content Type is:', array('@ct' => self::$d8_custom_entity_type)));
             dlm($new_dayhike_values);
             $node = $entitites_manager->save($new_dayhike_values);
-        } else {
+            $insertedOrUpdated['nid'] = $nid;
+            $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
+            return $insertedOrUpdated;
+        } else if (!$nids || ($nids && count($nids) == 0)) {
             /*
              * We create a new Node see 
              * http://stackoverflow.com/questions/24172791/how-to-programmatically-create-a-node-in-drupal-8
@@ -176,15 +180,45 @@ class DayHike {
             $new_dayhike_values['type'] = self::$d8_custom_entity_type;
             drush_log(t(' DayHike Entity: Insertion of new values for the @ct Node/Content Type is:', array('@ct' => self::$d8_custom_entity_type)));
             dlm($new_dayhike_values);
-            
+
             $node = Node::create($new_dayhike_values);
             drush_log("+++++ just before inserting ....");
             dlm($new_dayhike_values);
             $node->save();
             drush_log("+++++ just after inserting ....");
+            $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
+            return $insertedOrUpdated;
+        } else if ($nids && count($nids) > 1) {
+            drush_log(t('!!! there are @c nids for the same dayHike with field_cle : @cle we need first to remove them before inserting again', array('@c' => count($nids), '@cle' => $this->cle)), $type = 'warning');
+            $this->d8Delete($nids);
+            $node = Node::create($new_dayhike_values);
+            drush_log("+++++ just before inserting ....");
+            dlm($new_dayhike_values);
+            $node->save();
+            drush_log("+++++ just after inserting ....");
+            $insertedOrUpdated['nid'] = false;
+            $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
+            return $insertedOrUpdated;
+        } else {
+            return false;
         }
-        $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
-        return $insertedOrUpdated;
     }
-
+    /*
+     * Utility function to allow for deleting
+     * nodes out of an array of nodes' ids !!!!
+     */
+    public function d8Delete($nids = false) {
+        if ($nids && count($nids) > 0) {
+            $controller = \Drupal::entityManager()->getStorage('node');
+            drush_log(t('@c nodes to remove for field_cle: @cle .', array('@c' => count($nids),'@cle' => $this->cle)));
+            foreach ($nids as $nid) {
+                drush_log(t('-- removing node with id : @id', array('@id' => $nid)));
+                $dayHikeentity = $controller->load($nid);
+                $controller->delete(array($dayHikeentity));
+            }
+        } else {
+            drush_log(t('no  node to remove for field_cle: @cle ???', array('@cle' => $this->cle)), $type = 'warning');
+        }
+    }
 }
+    

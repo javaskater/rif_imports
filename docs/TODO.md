@@ -127,3 +127,10 @@ Creating config file /etc/php/7.0/phpdbg/php.ini with new version
   * adhérent (Gares/Heures)
   * animateur (peut modifier/supprimer sa randonnée)
   * Toute configuration est à exporter via Features  notamment
+
+
+# 24/08/2016
+* reprise et suppressions OKs!!!!
+  * pour la reprise, noter que les valeurs ne sont pas mises à jour si un champs est modifié pour une randonnée existante:
+  * dans le cas présent j'ai modifié le titre de la randonnée  31018
+    * entre le smaple et le sample2
