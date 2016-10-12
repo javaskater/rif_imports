@@ -163,13 +163,46 @@ class DayHike {
         }
 
         if ($nids && count($nids) == 1) {
-            $nid = $nids[0];
-            $new_dayhike_values['nid'] = $nid;
-            drush_log(t(' DayHike Entity: the existing array of values to update  in Drupal8 for the @ct Node/Content Type is:', array('@ct' => self::$d8_custom_entity_type)));
+            foreach ($nids as $k=>$v){
+                $new_dayhike_values['nid'] = $v;
+            }
+            drush_log(t('+++ DayHike Entity: Updating the (existing) Drupal8 node : @nid of : @ct Node/Content Type ....', array('@nid' =>  $new_dayhike_values['nid'],'@ct' => self::$d8_custom_entity_type)));
+            $myDayHikeD8Node = Node::load($new_dayhike_values['nid']);
+            $myDayHikeD8Node->revision = 1; //important pour créer une nouvelle révision Ne fonctionne pas alors que fonctionne en manuel !!!!!
+            $myDayHikeD8Node->setNewRevision();
             dlm($new_dayhike_values);
-            $node = $entitites_manager->save($new_dayhike_values);
-            $insertedOrUpdated['nid'] = $nid;
-            $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
+            
+            $myDayHikeD8Node->set('title',$new_dayhike_values['title'],FALSE);
+            
+            $myDayHikeD8Node->body->value = $new_dayhike_values['body'];
+            
+            //$myDayHikeD8Node->body->format = 'full_html';
+            //$myDayHikeD8Node->log = t('Il s\'agit de la révision qui prend effet au %date', array('%date' => $donnees_drupal['field_begin_date']));
+            
+            $myDayHikeD8Node->set('field_cle',$new_dayhike_values['field_cle'],FALSE);
+            
+            $myDayHikeD8Node->set('field_type',$new_dayhike_values['field_type'],FALSE);
+            
+            $myDayHikeD8Node->set('field_date',$new_dayhike_values['field_date'],FALSE);
+            
+            $myDayHikeD8Node->set('field_gare_depart_aller',$new_dayhike_values['field_gare_depart_aller'],FALSE);
+            $myDayHikeD8Node->set('field_heure_depart_aller',$new_dayhike_values['field_heure_depart_aller'],FALSE);
+            $myDayHikeD8Node->set('field_gare_arrivee_aller',$new_dayhike_values['field_gare_arrivee_aller'],FALSE);
+            $myDayHikeD8Node->set('field_heure_arrivee_aller',$new_dayhike_values['field_heure_arrivee_aller'],FALSE);
+            
+            $myDayHikeD8Node->set('field_gare_depart_retour',$new_dayhike_values['field_gare_depart_retour'],FALSE);
+            $myDayHikeD8Node->set('field_heure_depart_retour',$new_dayhike_values['field_heure_depart_retour'],FALSE);
+            $myDayHikeD8Node->set('field_gare_arrivee_retour',$new_dayhike_values['field_gare_arrivee_retour'],FALSE);
+            $myDayHikeD8Node->set('field_heure_arrivee_retour',$new_dayhike_values['field_heure_arrivee_retour'],FALSE);
+
+            $myDayHikeD8Node->save();
+            
+            $new_dayhike_values['vid'] = $myDayHikeD8Node->vid->value;
+            $insertedOrUpdated['content'] = $new_dayhike_values;
+            $insertedOrUpdated['d8Entity'] = $myDayHikeD8Node;
+            
+            drush_log(t('+++ DayHike Entity:  The Drupal8 node : @nid of : @ct Node/Content Type has been updated!! Its new version Id is : @vid', array('@nid' => $insertedOrUpdated['nid'],'@vid' => $insertedOrUpdated['vid'],'@ct' => self::$d8_custom_entity_type)));
+            
             return $insertedOrUpdated;
         } else if (!$nids || ($nids && count($nids) == 0)) {
             /*
@@ -186,7 +219,8 @@ class DayHike {
             dlm($new_dayhike_values);
             $node->save();
             drush_log("+++++ just after inserting ....");
-            $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
+            $insertedOrUpdated['content'] = $new_dayhike_values;
+            $insertedOrUpdated['d8Entity'] = $node;
             return $insertedOrUpdated;
         } else if ($nids && count($nids) > 1) {
             drush_log(t('!!! there are @c nids for the same dayHike with field_cle : @cle we need first to remove them before inserting again', array('@c' => count($nids), '@cle' => $this->cle)), $type = 'warning');
@@ -196,8 +230,8 @@ class DayHike {
             dlm($new_dayhike_values);
             $node->save();
             drush_log("+++++ just after inserting ....");
-            $insertedOrUpdated['nid'] = false;
-            $insertedOrUpdated['d8Entity'] = $new_dayhike_values;
+            $insertedOrUpdated['content'] = $new_dayhike_values;
+            $insertedOrUpdated['d8Entity'] = $node;
             return $insertedOrUpdated;
         } else {
             return false;
