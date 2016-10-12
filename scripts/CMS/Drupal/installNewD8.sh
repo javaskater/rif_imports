@@ -110,6 +110,16 @@ main(){
 		trace " - adding complementaries modules and themes : KO (see ${LOGFILE})"
 		exit 1
 	fi
+
+        trace " + Mise à jour via drush de la traduction ${LOCALE}"
+	$DRUSH --root=${PHPPROJECT} locale-check && $DRUSH --root=${PHPPROJECT} locale-update
+	if [ $? -eq 0 ]; then
+		trace " - Mise à jour via drush de la traduction ${LOCALE} : OK"
+	else
+		trace " - Mise à jour via drush de la traduction ${LOCALE} : KO (see ${LOGFILE})"
+		exit 1
+	fi
+
 	trace " End of the installation ..."
 	
 
