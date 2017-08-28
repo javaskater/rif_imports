@@ -1,0 +1,25 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_cle_adh
+  module:
+    - user
+id: user.user.field_cle_adh
+field_name: field_cle_adh
+entity_type: user
+bundle: user
+label: cle_adh
+description: 'Clé adhérent exportée '
+required: true
+translatable: false
+default_value:
+  -
+    value: -1
+default_value_callback: ''
+settings:
+  min: -1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
