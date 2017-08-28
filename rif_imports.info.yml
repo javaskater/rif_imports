@@ -14,5 +14,6 @@ project: 'rif-imports'
 #delete_all is another dependency as it allow me to delete the node of type Randonnée de Journée 
 ## through the command: drush @d8rif.dev dadc randonnee_de_journee
 dependencies:
+  - user
   - randonnee_de_journee
   - delete_all
