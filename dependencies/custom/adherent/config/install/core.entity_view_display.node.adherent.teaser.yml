@@ -3,6 +3,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.adherent.field_cle_adherent
+    - field.field.node.adherent.field_role
     - node.type.adherent
   module:
     - user
@@ -15,4 +17,6 @@ content:
     weight: 100
     region: content
 hidden:
+  field_cle_adherent: true
+  field_role: true
   langcode: true

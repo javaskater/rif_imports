@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.adherent.field_cle_adherent
-    - field.field.node.adherent.field_cms_user
+    - field.field.node.adherent.field_login
     - field.field.node.adherent.field_role
     - node.type.adherent
 id: node.adherent.default
@@ -12,7 +12,7 @@ bundle: adherent
 mode: default
 content:
   field_cle_adherent:
-    weight: 1
+    weight: 2
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -27,8 +27,17 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_login:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
   field_role:
-    weight: 2
+    weight: 3
     settings:
       match_operator: CONTAINS
       size: 60
