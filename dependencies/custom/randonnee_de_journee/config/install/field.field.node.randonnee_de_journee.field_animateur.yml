@@ -3,29 +3,25 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_animateur
+    - node.type.adherent
     - node.type.randonnee_de_journee
-  content:
-    - 'user:user:7abb0b7f-773e-430f-9c3b-59fb2cd6678f'
 id: node.randonnee_de_journee.field_animateur
 field_name: field_animateur
 entity_type: node
 bundle: randonnee_de_journee
 label: Animateur
-description: 'Correspond au champs Rj_NomDuProgramme'
-required: false
+description: 'L''animateur ou les animateurs qui conduisent la randonnée... Il s''agit d''un contenu de type adhérent'
+required: true
 translatable: false
-default_value:
-  -
-    target_uuid: 7abb0b7f-773e-430f-9c3b-59fb2cd6678f
+default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:user'
+  handler: 'default:node'
   handler_settings:
-    include_anonymous: true
-    filter:
-      type: _none
-    target_bundles: null
+    target_bundles:
+      adherent: adherent
     sort:
       field: _none
     auto_create: false
+    auto_create_bundle: ''
 field_type: entity_reference

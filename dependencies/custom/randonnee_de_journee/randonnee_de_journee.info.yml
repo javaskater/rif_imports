@@ -3,12 +3,14 @@ description: 'Provides Randonnée de Journée type and related configuration. La
 type: module
 core: 8.x
 dependencies:
+  - adherent
   - datetime
   - field
   - language
   - menu_ui
   - node
   - rest
+  - serialization
   - text
   - user
   - views

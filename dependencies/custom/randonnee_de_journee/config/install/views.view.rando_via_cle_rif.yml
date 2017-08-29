@@ -6,6 +6,7 @@ dependencies:
   module:
     - node
     - rest
+    - serialization
     - user
 id: rando_via_cle_rif
 label: 'Rando via clé RIF'

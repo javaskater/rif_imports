@@ -1,0 +1,25 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_role
+    - node.type.adherent
+    - user.role.adherent
+id: node.adherent.field_role
+field_name: field_role
+entity_type: node
+bundle: adherent
+label: Role
+description: 'Ce rôle est repris au niveau du CMS'
+required: false
+translatable: false
+default_value:
+  -
+    target_uuid: 9bf13469-4b36-465d-9e2f-59fca1138c27
+default_value_callback: ''
+settings:
+  handler: 'default:user_role'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

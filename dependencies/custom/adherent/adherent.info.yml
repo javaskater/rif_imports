@@ -1,0 +1,10 @@
+name: Adhérent
+description: 'Provides Adhérent content type and related configuration. Adhérent du RIF, peut être un adhérent standard ou un animateur '
+type: module
+core: 8.x
+dependencies:
+  - field
+  - language
+  - menu_ui
+  - node
+  - user

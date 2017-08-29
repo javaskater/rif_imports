@@ -13,6 +13,7 @@ dependencies:
     - datetime
     - node
     - rest
+    - serialization
     - user
 id: randonnees_de_journee
 label: 'Randonnées de Journée'
