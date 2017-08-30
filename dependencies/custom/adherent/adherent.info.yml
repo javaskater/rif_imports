@@ -1,5 +1,5 @@
 name: Adhérent
-description: 'Provides Adhérent content type and related configuration. Adhérent du RIF, peut être un adhérent standard ou un animateur '
+description: 'An Adhérent could be just a hiker (adherent) or a leader (animateur)'
 type: module
 core: 8.x
 dependencies:
