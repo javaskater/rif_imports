@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\rif_imports\Controller\ImportRjController;
+use Drupal\rif_imports\Controller\ImportAdhController;
 
 /**
  * @file
@@ -29,6 +30,28 @@ function rif_imports_drush_command() {
             'drush rif-efface-randos-jours csv="~/RIF/importations/randonnees.eff.csv"' => 'remove day hikes specified the csv file',
         ),
         'aliases' => array('rerj'),
+    );
+
+    $items['rif-import-adherents'] = array(
+        'description' => 'Imports Hikers from a RIF csv File  into Drupal (Drupal 8 Adhérent content type)',
+        'options' => array(
+            'csv' => 'path of the csv file to import the hikers from ...',
+        ),
+        'examples' => array(
+            'drush rif-import-adherents csv="~/RIF/importations/adherents.csv"' => 'import hikers from the specified csv file',
+        ),
+        'aliases' => array('riadh'),
+    );
+
+    $items['rif-efface-adherents'] = array(
+        'description' => 'Remove Hikers (Drupal 8 Adhérent content type) contained in the csv file from Drupal',
+        'options' => array(
+            'csv' => 'path of the csv file where the day hikes to remove are specified ...',
+        ),
+        'examples' => array(
+            'drush rif-efface-adherents csv="~/RIF/importations/adherents.eff.csv"' => 'remove hikers specified the csv file',
+        ),
+        'aliases' => array('readh'),
     );
 
     /**
@@ -81,6 +104,35 @@ function drush_rif_imports_rif_efface_randos_jours() {
     $hikes_deleted = $importer->deleteDayHikes($path_file);
     if ($hikes_deleted){
         drush_log(t('from @tr dayhikes to remove, @rd effectively removed !!!', array('@tr' => $hikes_deleted['to_remove'], '@rd' => $hikes_deleted['removed'])), $type = 'ok');
+    } else {
+        drush_log(t('no dayhikes to remove !!!'), $type = 'warning');
+    }
+}
+
+/**
+ * Drush callback to import Hikers.
+ */
+function drush_rif_imports_rif_import_adherents() {
+    $path_file = drush_get_option("csv");
+    drush_log(t('onva lire depui @csv', array('@csv' => $path_file)));
+
+    $importer = new ImportAdhController();
+
+    $hikers_to_insert_or_update = $importer->insertOrUpdateHikers($path_file);
+}
+
+/**
+ * Drush callback to remove Hikers.
+ */
+function drush_rif_imports_rif_efface_adherents() {
+    $path_file = drush_get_option("csv");
+    drush_log(t('onva lire depui @csv', array('@csv' => $path_file)));
+
+    $importer = new ImportAdhController();
+
+    $hikers_deleted = $importer->deleteHikers($path_file);
+    if ($hikers_deleted){
+        drush_log(t('from @tr hikers to remove, @rd effectively removed !!!', array('@tr' => $hikers_deleted['to_remove'], '@rd' => $hikers_deleted['removed'])), $type = 'ok');
     } else {
         drush_log(t('no dayhikes to remove !!!'), $type = 'warning');
     }
