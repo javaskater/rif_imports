@@ -8,7 +8,8 @@
 namespace Drupal\rif_imports\Entity;
 
 use Drupal\node\Entity\Node;
-use Drupal\rif_imports\Entity\TrainRide;
+use Drupal\user\Entity\User;
+use Drupal\user\Entity\Role;
 
 class Hiker {
     /*
@@ -23,10 +24,23 @@ class Hiker {
      * - the first name is the name of the TrainRide Object (see constructor)
      * - the second name is the name of the attribute of the preceding TrainRide Object
      */
-    public static $d8_csv_mapping = array(//TODO refaire le mapping...
-        array('field' => 'field_cle', 'csv_pos' => O, 'attribute' => array('cle')),
-        array('field' => 'field_type', 'csv_pos' => 2, 'attribute' => array('type')),
-        array('field' => 'body', 'csv_pos' => 22, 'attribute' => array('itineraire')),
+    public static $d8_csv_animateur_mapping = array(
+        array('field' => 'field_cle_adherent', 'csv_pos' => O, 'attribute' => array('cle' => 'integer')),
+        array('field' => 'title', 'csv_pos' => 1, 'attribute' => array('surnom' => 'string')),
+       );
+    
+    
+    field.field.node.adherent.field_cle_adherent
+    - field.field.node.adherent.field_code_postal_adherent
+    - field.field.node.adherent.field_login
+    - field.field.node.adherent.field_mail_adherent
+    - field.field.node.adherent.field_nom_adherent
+    - field.field.node.adherent.field_prenom_adherent
+    - field.field.node.adherent.field_role
+    public static $d8_csv_adherent_mapping = array(
+        array('field' => 'field_cle_adherent', 'csv_pos' => O, 'attribute' => array('cle')),
+        array('field' => 'field_code_postal_adherent', 'csv_pos' => 2, 'attribute' => array('type')),
+        array('field' => 'field_role', 'csv_pos' => 22, 'attribute' => array('role' => '')),
         array('field' => 'title', 'csv_pos' => 4, 'attribute' => array('titre')),
         array('field' => 'field_date', 'csv_pos' => 1, 'attribute' => array('date')),
         array('field' => 'field_gare_depart_aller', 'csv_pos' => 19, 'attribute' => array('aller', 'gareDepart')),
@@ -44,10 +58,19 @@ class Hiker {
      * see paragraph 7.11 of PHP In Action
      * OReilly Books ...
      */
-    protected $__data = array('cle' => false, 'type' => false, 'itineraire' => false, 'titre' => false,
+    protected $__data = array('cle' => false, 'surnom' => false, 'itineraire' => false, 'titre' => false,
         'date' => false, 'aller' => false, 'retour' => false);
 
+    /*
+     * Just for the two Entity References
+     * 
+     * ( User and Role )
+     * 
+     * Managing users programmatically
+     * https://www.drupal.org/node/2445521
+     */
     public function __construct() {
+        
         $this->__data['aller'] = new TrainRide();
         $this->__data['retour'] = new TrainRide();
     }
@@ -84,37 +107,18 @@ class Hiker {
             //dlm($this->__data['retour']);
         }
     }
-
-    /*
-     * Looks for if the DayHike already exists in Drupal 8 Public Website...
-     * we want to check an instance if the  if the cle attribute
-     * playing with entities see :
-     * https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Core%21Entity%21entity.api.php/group/entity_api/8.2.x
-     */
-
-    public static function d8Exists() {
-        //TODO test if the Hikers is already in the database and returns it if the case ...
-        if ($this->__data['cle']) {
-            /*
-             * the query is related to nodes !!!!
-             * see drush tests at rif_imports/drush/tests/DayHikeQueryTest.php
-             * it returns an array of ids
-             */
-            $dayHikeNids = \Drupal::entityQuery('node')//TODO the Query is related to nodes 
-                    ->condition('field_cle', $this->__data['cle'], '=')
-                    ->execute();
-            drush_log(t('+ for cle @c I got ....', array('@c' => $this->__data['cle'])));
-            if (count($dayHikeNids) > 0) {
-                drush_log(t('DayHike entity: found a DayHike for the cle:@cle; its content is :', array('@cle' => $this->__data['cle'])));
-                dlm($dayHikeNids);
-            } else {
-                drush_log(t('DayHike entity: did not findd a DayHike for the cle:@cle !!!!', array('@cle' => $this->__data['cle'])));
-            }
-            return $dayHikeNids;
-        } else {
-            drush_log(t('DayHike entity does not have a valid "cle" value'));
-            return false;
-        }
+    
+    public static function d8userExists() {
+        /*TODO test if the Hikers is already in the database and returns it if the case ...
+         * Managing users programmatically
+         * https://www.drupal.org/node/2445521
+         * also https://lakshminp.com/using-entity-api-drupal-8
+         */
+        $query = \Drupal::entityQuery('user')
+        ->condition('status', 1)
+        ->condition('field_my_link.uri', 'lakshminp.com', 'CONTAINS');
+        $nids = $query->execute();
+        
     }
 
     /*

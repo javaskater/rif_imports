@@ -4,6 +4,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.randonnee_de_journee.body
+    - field.field.node.randonnee_de_journee.field_animateur
     - field.field.node.randonnee_de_journee.field_cle
     - field.field.node.randonnee_de_journee.field_date
     - field.field.node.randonnee_de_journee.field_gare_arrivee_aller
@@ -38,6 +39,7 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_animateur: true
   field_cle: true
   field_date: true
   field_gare_arrivee_aller: true

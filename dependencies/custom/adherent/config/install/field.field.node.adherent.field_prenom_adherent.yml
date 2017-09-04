@@ -1,0 +1,18 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prenom_adherent
+    - node.type.adherent
+id: node.adherent.field_prenom_adherent
+field_name: field_prenom_adherent
+entity_type: node
+bundle: adherent
+label: 'Prénom adhérent'
+description: 'Le prénom de l''adhérent'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

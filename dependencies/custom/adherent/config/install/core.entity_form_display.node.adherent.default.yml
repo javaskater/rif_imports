@@ -3,7 +3,11 @@ status: true
 dependencies:
   config:
     - field.field.node.adherent.field_cle_adherent
+    - field.field.node.adherent.field_code_postal_adherent
     - field.field.node.adherent.field_login
+    - field.field.node.adherent.field_mail_adherent
+    - field.field.node.adherent.field_nom_adherent
+    - field.field.node.adherent.field_prenom_adherent
     - field.field.node.adherent.field_role
     - node.type.adherent
 id: node.adherent.default
@@ -27,6 +31,13 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
+  field_code_postal_adherent:
+    weight: 6
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
   field_login:
     weight: 1
     settings:
@@ -36,8 +47,32 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete
     region: content
-  field_role:
+  field_mail_adherent:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  field_nom_adherent:
     weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_prenom_adherent:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_role:
+    weight: 7
     settings:
       match_operator: CONTAINS
       size: 60
