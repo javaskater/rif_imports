@@ -27,4 +27,6 @@ $username="admin";
 
 $found_hiker=DrupalHiker::findByUserName($username);
 
+
+//pourquoi ne voit on que anonymous .... J'ai ajouté adhérents et animateur
 var_dump($found_hiker->roles);
