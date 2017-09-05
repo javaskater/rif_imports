@@ -2,26 +2,17 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.adherent.field_cle_adherent
     - field.field.node.adherent.field_code_postal_adherent
     - field.field.node.adherent.field_login
     - field.field.node.adherent.field_mail_adherent
     - field.field.node.adherent.field_nom_adherent
     - field.field.node.adherent.field_prenom_adherent
-    - field.field.node.adherent.field_role
     - node.type.adherent
 id: node.adherent.default
 targetEntityType: node
 bundle: adherent
 mode: default
 content:
-  field_cle_adherent:
-    weight: 2
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-    type: number
-    region: content
   field_cms_user:
     weight: 3
     settings:
@@ -70,15 +61,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-    region: content
-  field_role:
-    weight: 7
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
     region: content
   title:
     type: string_textfield

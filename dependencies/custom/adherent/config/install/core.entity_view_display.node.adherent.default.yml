@@ -2,13 +2,11 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.adherent.field_cle_adherent
     - field.field.node.adherent.field_code_postal_adherent
     - field.field.node.adherent.field_login
     - field.field.node.adherent.field_mail_adherent
     - field.field.node.adherent.field_nom_adherent
     - field.field.node.adherent.field_prenom_adherent
-    - field.field.node.adherent.field_role
     - node.type.adherent
   module:
     - user
@@ -17,15 +15,6 @@ targetEntityType: node
 bundle: adherent
 mode: default
 content:
-  field_cle_adherent:
-    weight: 2
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: number_integer
-    region: content
   field_cms_user:
     weight: 2
     label: above
@@ -73,14 +62,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_role:
-    weight: 6
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
     region: content
   links:
     weight: 7
