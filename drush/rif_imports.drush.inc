@@ -16,7 +16,7 @@ function rif_imports_drush_command() {
             'csv' => 'path of the csv file to import the day hikes from ...',
         ),
         'examples' => array(
-            'drush rif-import-randos-jours csv="~/RIF/importations/randonnees.csv"' => 'import day hikes from the specified csv file',
+            'drush rif-import-randos-jours --csv="~/RIF/importations/randonnees.csv"' => 'import day hikes from the specified csv file',
         ),
         'aliases' => array('rirj'),
     );
@@ -27,7 +27,7 @@ function rif_imports_drush_command() {
             'csv' => 'path of the csv file where the day hikes to remove are specified ...',
         ),
         'examples' => array(
-            'drush rif-efface-randos-jours csv="~/RIF/importations/randonnees.eff.csv"' => 'remove day hikes specified the csv file',
+            'drush rif-efface-randos-jours --csv="~/RIF/importations/randonnees.eff.csv"' => 'remove day hikes specified the csv file',
         ),
         'aliases' => array('rerj'),
     );
@@ -38,7 +38,7 @@ function rif_imports_drush_command() {
             'csv' => 'path of the csv file to import the hikers from ...',
         ),
         'examples' => array(
-            'drush rif-import-adherents csv="~/RIF/importations/adherents.csv"' => 'import hikers from the specified csv file',
+            'drush rif-import-adherents --csv="~/RIF/importations/adherents.csv"' => 'import hikers from the specified csv file',
         ),
         'aliases' => array('riadh'),
     );
@@ -49,7 +49,7 @@ function rif_imports_drush_command() {
             'csv' => 'path of the csv file where the day hikes to remove are specified ...',
         ),
         'examples' => array(
-            'drush rif-efface-adherents csv="~/RIF/importations/adherents.eff.csv"' => 'remove hikers specified the csv file',
+            'drush rif-efface-adherents --csv="~/RIF/importations/adherents.eff.csv"' => 'remove hikers specified the csv file',
         ),
         'aliases' => array('readh'),
     );

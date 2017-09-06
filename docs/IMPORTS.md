@@ -58,3 +58,37 @@ randonnee_de_journee/
 └── randonnee_de_journee.info.yml
 ```
 * as I explained on [my WIKI](http://wiki.jpmena.eu/index.php?title=Php:drupal8:features:install#Effet_de_la_d.C3.A9sintallation_du_module_g.C3.A9n.C3.A9r.C3.A9) uninstalling the module does not remove the _Randonnée de Journée_ content type nor the associated views!
+
+# testing the import in Visual Studio Code (Debug Mode)
+
+* I documented in frech Client PHP Debugging on my [personal WIKI](http://wiki.jpmena.eu/index.php?title=Php:ide#Passage_en_pas_.C3.A0_pas_sur_du_client_php)
+
+## the command to be tested:
+
+```bash
+jpmena@jpmena-HP-ProDesk-600-G2-MT ~/RIF/d8devextranet/web $ drush rif-import-adherents --csv="modules/custom/rif_imports/examples/csvfiles/adherents.sample.csv"
+```
+
+## adpating  the debug configuration of my current project
+
+* We need to add the following configuration to _${PROJECT_ROOT}/.vscode/launch.json_
+
+```javascript
+         {
+            "name": "Drush adherents",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceRoot}/vendor/drush/drush/drush.php",
+            "args": [ "--root=${workspaceRoot}/web", "rif-import-adherents",  "--csv=${workspaceRoot}/web/modules/custom/rif_imports/examples/csvfiles/animateurs.sample.csv" ],
+            "port": 8111
+        }
+```
+
+## defining the php client configuration of XDEBUG
+
+```bash
+# exporting the XDEBUG client configuration with 8111 as the port (9000 used by apache/XDebug and 8000 by another Linux Daemon)
+jpmena@jpmena-HP-ProDesk-600-G2-MT ~/RIF/d8devextranet/web $ export XDEBUG_CONFIG="remote_enable=1 remote_mode=req remote_port=8111 remote_host=127.0.0.1 remote_connect_back=0"
+# once exported we can start our VisualStudioCode
+jpmena@jpmena-HP-ProDesk-600-G2-MT ~/RIF/d8devextranet/web $ code
+```

@@ -25,11 +25,11 @@ class Hiker {
      */
     public static $d8_csv_animateur_mapping = array(
         array(
-            'field' => 'field_cle_adherent',
+            'field' => 'field_login',
             'csv_pos' => O,
             'attribute' => array(
                 'entity' => 'user',
-                'attr' => 'username'
+                'attr' => 'username' //is it name or username ?
             )
         ),
         array(
@@ -47,7 +47,7 @@ class Hiker {
             'csv_pos' => 0,
             'attribute' => array(
                 'entity' => 'user',
-                'attr' => 'username'
+                'attr' => 'username' //is it name or username ?
             )
         ),
         array(
@@ -69,7 +69,7 @@ class Hiker {
             'field' => 'field_prenom_adherent',
             'csv_pos' => 3,
             'attribute' => array(
-                'role' => 'prenom'
+                'attr' => 'prenom'
             )
         ),     
         array(
