@@ -22,9 +22,9 @@ class DrupalHiker {
      * with the RIF Hikers
      * see https://www.drupal.org/node/2445521
      */
-    public function __construct($username=NULL) {
+    public function __construct($uid=NULL) {
         $this->adminUser = User::load(1);
-        if ($username){
+        if ($uid){
             $this->d8User = User::load($uid);
         } else {
             $this->d8User = User::create();
@@ -102,6 +102,10 @@ class DrupalHiker {
         $this->d8User->activate();
         return $this->d8User->save();
     }
+
+    public function returnD8USer(){
+        return $this->d8User;
+    }
     
     public static function findByUserName($username){
         /*
@@ -114,8 +118,9 @@ class DrupalHiker {
         $query = \Drupal::entityQuery('user')->condition('name', $username, 'CONTAINS');
         $found_userids = $query->execute();
         if(count($found_userids) == 1){
-            $found_user_id = $found_userids[0];
-            $found_user = new self($found_user_id);
+            $cle_user_id = key($found_userids);
+            $user_id = (int)$found_userids[$cle_user_id];
+            $found_user = new self($user_id);
         }     
         return $found_user;
     }
