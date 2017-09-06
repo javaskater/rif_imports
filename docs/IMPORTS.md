@@ -61,7 +61,7 @@ randonnee_de_journee/
 
 # testing the import in Visual Studio Code (Debug Mode)
 
-* I documented in frech Client PHP Debugging on my [personal WIKI](http://wiki.jpmena.eu/index.php?title=Php:ide#Passage_en_pas_.C3.A0_pas_sur_du_client_php)
+* I documented _(in french)_ Client PHP Debugging on my [personal WIKI](http://wiki.jpmena.eu/index.php?title=Php:ide#Passage_en_pas_.C3.A0_pas_sur_du_client_php)
 
 ## the command to be tested:
 

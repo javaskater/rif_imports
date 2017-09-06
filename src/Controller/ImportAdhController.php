@@ -64,13 +64,15 @@ class ImportAdhController extends ImportControllerBase {
                     }
                     //drush_log(t('++ ligne @treated avec succes: ', array('@treated' => $treated)));
                     $hikers[] = $myHiker;
-                    drush_log(t('- RjController end of DayHike dlm')); 
-                    $finalD8DayHike = $myHiker->d8InsertOrUpdate($d8HikerNids);
-                    //dlm($finalD8DayHike);
-                    if ($finalD8DayHike['nid']) {
-                        $nodes_updated[] = $finalD8DayHike['d8Entity'];
+                    drush_log(t('- RjController end of Hiker dlm')); 
+                    $finalD8Hiker = $myHiker->d8InsertOrUpdate();
+                    /*$finalD8Hiker = $myHiker->returnD8Node()->returnD8User();
+                    dlm($finalD8Hiker->getUsername());
+                    dlm($finalD8Hiker->getEmail());*/
+                    if ($finalD8Hiker['nid']) {
+                        $nodes_updated[] = $finalD8Hiker['d8Entity'];
                     } else {
-                        $nodes_inserted[] = $finalD8DayHike['d8Entity'];
+                        $nodes_inserted[] = $finalD8Hiker['d8Entity'];
                     }
                     $treated ++;
                 }
