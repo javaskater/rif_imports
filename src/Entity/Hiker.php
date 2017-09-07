@@ -169,7 +169,7 @@ class Hiker {
          * https://www.drupal.org/node/2445521
          * also https://lakshminp.com/using-entity-api-drupal-8
          */
-        $found_user = NULL;
+        $found_hiker = NULL;
         $query = \Drupal::entityQuery('node')->condition('field_login', $login, 'CONTAINS');
         $found_hikers_node_ids = $query->execute();
         if(count($found_hikers_node_ids) == 1){
@@ -187,7 +187,7 @@ class Hiker {
     public function d8InsertOrUpdateHikerNode()
     {
         $hiker = NULL;
-        $login = $this->user['value'];
+        $login = $this->username;
         if ($login){
             $hiker = self::findHikerNodeByLogin($login);
             if(!$hiker){
@@ -195,10 +195,24 @@ class Hiker {
                 $args = array();
                 foreach ($this->__data as $attribute => $dict_values){
                     $field_name = $dict_values['field'];
-                    $args[$field_name] = $this->__data[$attribute]['value'];
+                    $field_value = $this->__data[$attribute]['value'];
+                    if(gettype($field_value) == "object" && get_class($field_value) == 'Drupal\rif_imports\Entity\DrupalHiker'){
+                        $d8hiker = $field_value;
+                        /*
+                        * TODO if the user does not exists le créer avec ses rôles (cf. méthode de D8Hiker) 
+                        * et le lier au noeud Hiker
+                        */
+                        $args[$field_name] = $d8hiker->returnD8USer();
+                        /*
+                        * sinon, le créer et l'activer ....
+                        */
+                    } else {
+                        $args[$field_name] = $field_value;
+                    }
                 }
+                $args['type'] = self::$d8_custom_entity_type;
                 $hiker = Node::create($args); //see https://lakshminp.com/using-entity-api-drupal-8 to check if we need to mke an arrayt out of a user
-            }else{ //updates the Existing Node 
+            }else{ //updates the Existing Node //TODO ...
                 foreach ($this->__data as $attribute => $dict_values){
                     $field_name = $dict_values['field'];
                     $this->node_adherent->$field_name = $this->__data[$attribute]['value'];

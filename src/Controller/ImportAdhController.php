@@ -65,7 +65,7 @@ class ImportAdhController extends ImportControllerBase {
                     //drush_log(t('++ ligne @treated avec succes: ', array('@treated' => $treated)));
                     $hikers[] = $myHiker;
                     drush_log(t('- RjController end of Hiker dlm')); 
-                    $finalD8Hiker = $myHiker->d8InsertOrUpdate();
+                    $finalD8Hiker = $myHiker->d8InsertOrUpdateHikerNode();
                     /*$finalD8Hiker = $myHiker->returnD8Node()->returnD8User();
                     dlm($finalD8Hiker->getUsername());
                     dlm($finalD8Hiker->getEmail());*/
