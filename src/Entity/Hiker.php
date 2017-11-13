@@ -197,6 +197,8 @@ class Hiker {
                     $field_name = $dict_values['field'];
                     $field_value = $this->__data[$attribute]['value'];
                     if(gettype($field_value) == "object" && get_class($field_value) == 'Drupal\rif_imports\Entity\DrupalHiker'){
+
+
                         $d8hiker = $field_value;
                         /*
                         * TODO if the user does not exists le créer avec ses rôles (cf. méthode de D8Hiker) 

@@ -2,13 +2,13 @@ langcode: fr
 status: true
 dependencies:
   module:
-    - node
-id: node.field_prenom_adherent
-field_name: field_prenom_adherent
-entity_type: node
+    - user
+id: user.field_rif_hiker_firstname
+field_name: field_rif_hiker_firstname
+entity_type: user
 type: string
 settings:
-  max_length: 50
+  max_length: 60
   is_ascii: false
   case_sensitive: false
 module: core

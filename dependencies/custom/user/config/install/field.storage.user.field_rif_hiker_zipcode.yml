@@ -2,14 +2,14 @@ langcode: fr
 status: true
 dependencies:
   module:
-    - node
     - user
-id: node.field_login
-field_name: field_login
-entity_type: node
-type: entity_reference
+id: user.field_rif_hiker_zipcode
+field_name: field_rif_hiker_zipcode
+entity_type: user
+type: integer
 settings:
-  target_type: user
+  unsigned: false
+  size: normal
 module: core
 locked: false
 cardinality: 1

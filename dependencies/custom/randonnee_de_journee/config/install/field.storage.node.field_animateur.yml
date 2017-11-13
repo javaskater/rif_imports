@@ -3,12 +3,13 @@ status: true
 dependencies:
   module:
     - node
+    - user
 id: node.field_animateur
 field_name: field_animateur
 entity_type: node
 type: entity_reference
 settings:
-  target_type: node
+  target_type: user
 module: core
 locked: false
 cardinality: 3

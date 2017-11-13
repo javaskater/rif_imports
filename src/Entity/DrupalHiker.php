@@ -7,8 +7,79 @@ use \Drupal\user\Entity\User;
 /**
  * Description of a 
  * specific Drupal 8 user linked to the RIF roles ...
+ * It is just a wrapper around a standard Drupal8 Userr
+ * 
  */
 class DrupalHiker {
+    
+    
+    /*
+     * field is the machine name ot the field int the D8's custom entity type
+     * csv_pos is the column number (starting with 0) int the CSV file's line where the corresponding information is to be found
+     * attribute: is the attribute name in this object.... If the arrays length is 2,
+     * - the first name is the name of the TrainRide Object (see constructor)
+     * - the second name is the name of the attribute of the preceding TrainRide Object
+     */
+    public static $d8_csv_animateur_mapping = array(
+        array(
+            'field' => 'field_login',
+            'csv_pos' => O,
+            'attribute' => array(
+                'entity' => 'user',
+                'attr' => 'username' //is it name or username ?
+            )
+        ),
+        array(
+            'field' => 'title',
+            'csv_pos' => 1,
+            'attribute' => array(
+                'attr' => 'surnom'
+            )
+        )
+    );
+    
+    public static $d8_csv_adherent_mapping = array(
+        array(
+            'field' => 'field_login',
+            'csv_pos' => 0,
+            'attribute' => array(
+                'entity' => 'user',
+                'attr' => 'username' //is it name or username ?
+            )
+        ),
+        array(
+            'field' => 'field_mail_adherent',
+            'csv_pos' => 12,
+             'attr' => 'email'
+        ),
+        array(
+            'field' => 'field_nom_adherent',
+            'csv_pos' => 2,
+            'attribute' => array(
+                'attr' => 'nom'
+            )
+        ),
+        array(
+            'field' => 'field_prenom_adherent',
+            'csv_pos' => 3,
+            'attr' => 'prenom'
+        ),
+        array(
+            'field' => 'field_code_postal_adherent',
+            'csv_pos' => 6,
+            'attr' => 'codePostal'
+        )
+    );
+    
+    /*
+     * managing dynamic attributes through custom getters and setters 
+     * see paragraph 7.11 of PHP In Action
+     * OReilly Books ...
+     */
+     protected $__data = array('cle' => false, 'type' => false, 'itineraire' => false, 'titre' => false,
+        'date' => false, 'aller' => false, 'retour' => false);
+    
+    
     /*
      * The Drupal User associated with the Adherent named as Hiker ....
      */

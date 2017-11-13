@@ -2,12 +2,15 @@ langcode: fr
 status: true
 dependencies:
   module:
-    - node
-id: node.field_mail_adherent
-field_name: field_mail_adherent
-entity_type: node
-type: email
-settings: {  }
+    - user
+id: user.field_nickname
+field_name: field_nickname
+entity_type: user
+type: string
+settings:
+  max_length: 30
+  is_ascii: false
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

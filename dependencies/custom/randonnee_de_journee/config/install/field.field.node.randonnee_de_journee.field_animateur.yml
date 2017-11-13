@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_animateur
-    - node.type.adherent
     - node.type.randonnee_de_journee
 id: node.randonnee_de_journee.field_animateur
 field_name: field_animateur
@@ -16,12 +15,6 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
-  handler_settings:
-    target_bundles:
-      adherent: adherent
-    sort:
-      field: _none
-    auto_create: false
-    auto_create_bundle: ''
+  handler: 'default:user'
+  handler_settings: {  }
 field_type: entity_reference

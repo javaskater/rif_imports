@@ -8,7 +8,7 @@
 namespace Drupal\rif_imports\Controller;
 
 use Drupal\rif_imports\Controller\ImportControllerBase;
-use Drupal\rif_imports\Entity\Hiker;
+use Drupal\rif_imports\Entity\DrupalHiker;
 
 /**
  * Returns responses for devel module routes.
@@ -33,7 +33,7 @@ class ImportAdhController extends ImportControllerBase {
     public function insertOrUpdateHikers($path_file) {
         $hikers = array();
         if (($handle = $this->openfile($path_file)) !== FALSE) { //TODO à remplacer par une 
-            $this->mappingImport = Hiker::$d8_csv_adherent_mapping;
+            $this->mappingImport = DrupalHiker::$d8_csv_adherent_mapping;
             $nodes_inserted = [];
             $nodes_updated = [];
             $treated = 0;
@@ -43,7 +43,7 @@ class ImportAdhController extends ImportControllerBase {
                     dlm($data);
                     $num = count($data);
                     drush_log(t('- @num champs à la ligne @row: ', array('@num' => $num, '@row' => $row)));
-                    $myHiker = new Hiker();
+                    $myHiker = new DrupalHiker();
                     for ($c = 0; $c < $num; $c++) {
                         foreach ($this->mappingImport as $csv_map) {
                             //dlm($this->mappingImport);
@@ -88,7 +88,7 @@ class ImportAdhController extends ImportControllerBase {
 
     public function deleteHikers($path_file) {
         if (($handle = $this->openfile($path_file)) !== FALSE) { //TODO à remplacer par une 
-            $this->mappingImport = Hiker::$d8_csv_adherent_mapping;
+            $this->mappingImport = DrupalHiker::$d8_csv_adherent_mapping;
             $treated = 0;
             $row = 0;
             while (($data = fgetcsv($handle)) !== FALSE) {
@@ -96,7 +96,7 @@ class ImportAdhController extends ImportControllerBase {
                     dlm($data);
                     $num = count($data);
                     drush_log(t('- @num champs à la ligne @row: ', array('@num' => $num, '@row' => $row)));
-                    $myHiker = new Hiker();
+                    $myHiker = new DrupalHiker();
                     for ($c = 0; $c < $num; $c++) {
                         foreach ($this->mappingImport as $csv_map) {
                             //dlm($this->mappingImport);
