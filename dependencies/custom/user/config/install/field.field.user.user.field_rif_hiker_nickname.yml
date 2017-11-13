@@ -1,0 +1,19 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_rif_hiker_nickname
+  module:
+    - user
+id: user.user.field_rif_hiker_nickname
+field_name: field_rif_hiker_nickname
+entity_type: user
+bundle: user
+label: 'Rif Hiker Nickname'
+description: 'The nickname given to the hiker as manager on the hike he organizes ...'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

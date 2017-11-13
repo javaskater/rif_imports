@@ -2,9 +2,9 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_nickname
     - field.field.user.user.field_rif_hiker_firstname
     - field.field.user.user.field_rif_hiker_name
+    - field.field.user.user.field_rif_hiker_nickname
     - field.field.user.user.field_rif_hiker_zipcode
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -16,14 +16,6 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  field_nickname:
-    weight: 0
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
   field_rif_hiker_firstname:
     weight: 2
     label: above
@@ -34,6 +26,14 @@ content:
     region: content
   field_rif_hiker_name:
     weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_rif_hiker_nickname:
+    weight: 0
     label: above
     settings:
       link_to_entity: false

@@ -22,68 +22,42 @@ class DrupalHiker {
      */
     public static $d8_csv_animateur_mapping = array(
         array(
-            'field' => 'field_login',
             'csv_pos' => O,
-            'attribute' => array(
-                'entity' => 'user',
-                'attr' => 'username' //is it name or username ?
-            )
+            'attribute' => 'username' //is it name or username ?
         ),
         array(
-            'field' => 'title',
-            'csv_pos' => 1,
-            'attribute' => array(
-                'attr' => 'surnom'
-            )
+            'attribute' => 'field_rif_hiker_nickname',
+            'csv_pos' => 1
         )
     );
     
     public static $d8_csv_adherent_mapping = array(
         array(
-            'field' => 'field_login',
             'csv_pos' => 0,
-            'attribute' => array(
-                'entity' => 'user',
-                'attr' => 'username' //is it name or username ?
-            )
+            'attribute' => 'username' //is it name or username ?
         ),
         array(
-            'field' => 'field_mail_adherent',
             'csv_pos' => 12,
-             'attr' => 'email'
+            'attribute' => 'email'
         ),
         array(
-            'field' => 'field_nom_adherent',
-            'csv_pos' => 2,
-            'attribute' => array(
-                'attr' => 'nom'
-            )
+            'attribute' => 'field_rif_hiker_name',
+            'csv_pos' => 2
         ),
         array(
-            'field' => 'field_prenom_adherent',
-            'csv_pos' => 3,
-            'attr' => 'prenom'
+            'attribute' => 'field_rif_hiker_firstname',
+            'csv_pos' => 3
         ),
         array(
-            'field' => 'field_code_postal_adherent',
-            'csv_pos' => 6,
-            'attr' => 'codePostal'
+            'attribute' => 'field_rif_hiker_zipcode',
+            'csv_pos' => 6
         )
     );
     
-    /*
-     * managing dynamic attributes through custom getters and setters 
-     * see paragraph 7.11 of PHP In Action
-     * OReilly Books ...
-     */
-     protected $__data = array('cle' => false, 'type' => false, 'itineraire' => false, 'titre' => false,
-        'date' => false, 'aller' => false, 'retour' => false);
-    
     
     /*
-     * The Drupal User associated with the Adherent named as Hiker ....
+     * The Drupal User associated with the Adherent named as DrupalHiker ....
      */
-
     private $d8User;
     
     private $adminUser;
@@ -124,6 +98,13 @@ class DrupalHiker {
                     }
                 }   
                 break;
+            /* 
+             * for the custtom user fields see
+             * https://drupal.stackexchange.com/questions/146308/access-user-fields
+             */   
+            default:{
+                $this->d8User->set($property, $value); 
+            }
         }
     }
 
@@ -144,6 +125,13 @@ class DrupalHiker {
                 $attached_roles = $this->d8User->getRoles();
                 $result = $attached_roles;
                 break;
+            /*
+             * for the custtom user fields see
+             * https://drupal.stackexchange.com/questions/146308/access-user-fields
+             */
+            default:{
+                $result = $this->d8User->get($property);
+            }
         }
         return $result;
     }
@@ -152,7 +140,8 @@ class DrupalHiker {
     /*
      * Create an active  Drupal8 User
      * see  https://www.drupal.org/node/2445521
-     * (answer 
+     * (answer )
+     * And save it a the same time ...
      */
     public function activateD8USer($language="fr"){
         /*for the first tests password = usernam

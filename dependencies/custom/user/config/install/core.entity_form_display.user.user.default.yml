@@ -2,9 +2,9 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.user.user.field_nickname
     - field.field.user.user.field_rif_hiker_firstname
     - field.field.user.user.field_rif_hiker_name
+    - field.field.user.user.field_rif_hiker_nickname
     - field.field.user.user.field_rif_hiker_zipcode
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -26,14 +26,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_nickname:
-    weight: 1
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_rif_hiker_firstname:
     weight: 3
     settings:
@@ -44,6 +36,14 @@ content:
     region: content
   field_rif_hiker_name:
     weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_rif_hiker_nickname:
+    weight: 1
     settings:
       size: 60
       placeholder: ''
