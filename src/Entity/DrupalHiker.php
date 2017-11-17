@@ -56,6 +56,14 @@ class DrupalHiker {
     
     
     /*
+     * managing dynamic attributes through custom getters and setters
+     * see paragraph 7.11 of PHP In Action
+     * OReilly Books ...
+     */
+    protected $__data = array('username' => false, 'email' => false, 'field_rif_hiker_name' => false, 'field_rif_hiker_firstname' => false,
+        'field_rif_hiker_zipcode' => false, 'field_rif_hiker_nickname' => false, 'roles' => []);
+    
+    /*
      * The Drupal User associated with the Adherent named as DrupalHiker ....
      */
     private $d8User;
@@ -67,73 +75,77 @@ class DrupalHiker {
      * with the RIF Hikers
      * see https://www.drupal.org/node/2445521
      */
-    public function __construct($uid=NULL) {
+    public function __construct($roles = []) {
         $this->adminUser = User::load(1);
-        if ($uid){
-            $this->d8User = User::load($uid);
-        } else {
-            $this->d8User = User::create();
-        }
+        $this->d8User = NULL;
+        $this->roles = $roles;
     }
-
+    
+    /*
+     * managing dynamic attributes through custom getters and setters
+     * see paragraph 7.11 of PHP In Action
+     * OReilly Books ...
+     */
+    
+    public function __get($property) {
+        $result = false;
+        if (isset($this->__data[$property])) {
+            $result = $this->__data[$property];
+        }
+        //drush_log(t('from DayHike Entity, getting @p the value obtained is @v',array('@p'=>$property,'@v'=>$result)));
+        return $result;
+    }
+    
+    /*
+     * managing dynamic attributes through custom getters and setters
+     * see paragraph 7.11 of PHP In Action
+     * OReilly Books ...
+     */
+    
     public function __set($property, $value) {
-        $this->__conn_attrs[$property] = $value;
-        /* see https://www.drupal.org/node/2445521
-         * and go to web/core/modules/user/src/Entity/User.php
-         */
+        //drush_log(t('from DayHike Entity, setting @p with @v',array('@p'=>$property,'@v'=>$value)));
         switch ($property) {
             case 'username':
-                $this->d8User->setUsername($value);
-                break;
-            case 'password':
-                $this->d8User->setPassword($value);
-                break;
-            case 'email':
-                $this->d8User->setEmail($value);
-                break;
-            case 'roles':
+                $founduser = self::findByUserName($value);
+                if($founduser){
+                    $this->d8User = $founduser;
+                } else {
+                    $this->d8User = User::create();
+                }
                 if(is_array($this->roles) && count($this->roles) > 0){
                     foreach ($this->roles as $active_role){
                         $this->d8User->addRole($active_role);
                     }
                 }   
                 break;
-            /* 
-             * for the custtom user fields see
-             * https://drupal.stackexchange.com/questions/146308/access-user-fields
-             */   
-            default:{
-                $this->d8User->set($property, $value); 
-            }
         }
+        $this->__data[$property] = $value;
     }
 
-    
-    public function __get($property) {
-        $result = NULL;
-        switch ($property) {
-            case 'username':
-                $result = $this->d8User->getUsername();
-                break;
-            case 'password':
-                $result = $this->d8User->getPassword();
-                break;
-            case 'email':
-                $result = $this->d8User->getEmail();
-                break;
-            case 'roles':
-                $attached_roles = $this->d8User->getRoles();
-                $result = $attached_roles;
-                break;
-            /*
-             * for the custtom user fields see
-             * https://drupal.stackexchange.com/questions/146308/access-user-fields
-             */
-            default:{
-                $result = $this->d8User->get($property);
+    private function d8set($property, $value) {
+        /* see https://www.drupal.org/node/2445521
+         * and go to web/core/modules/user/src/Entity/User.php
+         */
+        if($value){ // in case of updatuing adherent values with animateur csv values...
+            switch ($property) {
+                case 'username':
+                    $this->d8User->setUsername($value);
+                    break;
+                case 'password':
+                    $this->d8User->setPassword($value);
+                    break;
+                case 'email':
+                    $this->d8User->setEmail($value);
+                    break;
+                /* 
+                 * for the custtom user fields see
+                 * https://drupal.stackexchange.com/questions/146308/access-user-fields
+                 */   
+                default:{
+                    $this->d8User->set($property, $value); 
+                }
             }
         }
-        return $result;
     }
     
 
@@ -148,6 +160,9 @@ class DrupalHiker {
          * Later we will ask for sending a connection
          * link !!!
          */ 
+        foreach ($this->__data as $property => $value){
+            $this->d8set($property, $value);
+        }
         if (!$this->d8User->getPassword()){
             $this->d8User->setPassword($this->d8User->getUsername());
         }
@@ -180,7 +195,7 @@ class DrupalHiker {
         if(count($found_userids) == 1){
             $cle_user_id = key($found_userids);
             $user_id = (int)$found_userids[$cle_user_id];
-            $found_user = new self($user_id);
+            $found_user = User::load($user_id);
         }     
         return $found_user;
     }

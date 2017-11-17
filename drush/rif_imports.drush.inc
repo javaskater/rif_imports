@@ -115,7 +115,7 @@ function drush_rif_imports_rif_efface_randos_jours() {
 function drush_rif_imports_rif_import_adherents() {
     $path_file = drush_get_option("csv");
     drush_log(t('onva lire depui @csv', array('@csv' => $path_file)));
-
+    
     $importer = new ImportAdhController();
 
     $hikers_to_insert_or_update = $importer->insertOrUpdateHikers($path_file);
